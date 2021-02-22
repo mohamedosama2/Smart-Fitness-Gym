@@ -4,11 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Home from './Components/home';
 import Nav from './Components/navbar';
 
-import Login from './Components/authentication/login';
-import Signup from './Components/authentication/signup';
-import ForgetPassword from './Components/authentication/forgetPassword';
-import Verify from './Components/authentication/verify';
-import ResetPassword from './Components/authentication/resetPassword';
+
 import Sidebar from './UI/Sidebar/Sidebar';
 import Backdrop from './UI/Backdrop/Backdrop'
 import PoPup from './UI/PoPup/PoPup';
@@ -17,6 +13,7 @@ function App() {
   
   const [open, setOpen] = useState(false);
   const [u, setU] = useState(false);
+  const [m, setM] = useState(false);
 
   const openHandler = useCallback(() => {
     setOpen(true);
@@ -27,10 +24,11 @@ function App() {
   }, []);
   const [open2, setOpen2] = useState(false);
 
-  const openHandler2 = useCallback((url) => {
+  const openHandler2 = useCallback((url,method) => {
     setOpen2(true);
     setU(url)
-    console.log(url)
+    setM(method)
+    console.log(method)
   }, []);
 
   const closeHandler2 = useCallback(() => {
@@ -53,6 +51,7 @@ function App() {
       />
        <PoPup    open={open2}
                   url={u}
+                  method={m}
         clickHandler2={openHandler2}
         closeHandler={closeHandler2} />
             <Switch>
