@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Oswald&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
-.chart-content {
+.chart_content {
   padding-left: 50px;
 }
 
@@ -18,58 +18,6 @@ body {
   background: linear-gradient(#665e46 5%, #FBE39A);
 }
 
-.navbar {
-  padding: 0;
-}
-
-.brand-logo img {
-  width: 80px;
-}
-
-.navbar-links ul {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.navbar-links li a {
-  text-decoration: none;
-  color: #fff;
-  font-size: 1.2rem;
-  text-transform: capitalize;
-  padding: 1rem;
-  display: block;
-}
-
-.navbar-links li:hover {
-  background-color: #df5277;
-  -webkit-transition: 1s;
-  transition: 1s;
-}
-
-.register {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  padding-right: 20px;
-  text-transform: uppercase;
-}
-
-.login a {
-  color: #EE4673;
-  padding-right: 10px;
-  text-decoration: none;
-}
-
-.signup a {
-  color: #d9a404;
-  padding-left: 10px;
-  text-decoration: none;
-}
-
 .line {
   color: #fff;
 }
@@ -80,10 +28,10 @@ body {
 
 /* ********************************** Start Profile **********************************/
 .profile {
-  margin-top: 100px;
+  margin-top: 260px;
 }
 
-.profile-info {
+.profile_info {
   margin-top: 239px;
 }
 
@@ -116,13 +64,13 @@ body {
           justify-content: center;
 }
 
-.profile-img {
+.profile_img {
   border-radius: 50%;
   width: 220px;
   height: 220px;
 }
 
-.add-img {
+.add_img {
   position: absolute;
   left: 204px;
   top: 178px;
@@ -201,7 +149,7 @@ hr {
       flex-wrap: wrap;
 }
 
-.card-container {
+.card_container {
   width: 300px;
   height: 400px;
   background: #FFF;
@@ -213,12 +161,12 @@ hr {
   margin-top: 20px;
 }
 
-.upper-container {
+.upper_container {
   height: 120px;
   background: #7F00FF;
 }
 
-.image-container {
+.image_container {
   background: white;
   width: 100px;
   height: 100px;
@@ -227,13 +175,13 @@ hr {
           transform: translate(95px, 55px);
 }
 
-.image-container img {
+.image_container img {
   width: 100px;
   height: 100px;
   border-radius: 50%;
 }
 
-.lower-container {
+.lower_container {
   height: 280px;
   background: #FFF;
   padding: 20px;
@@ -242,7 +190,7 @@ hr {
   font-size: 1.2rem;
 }
 
-.lower-container h3,
+.lower_container h3,
 h4 {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -250,21 +198,21 @@ h4 {
   font-weight: lighter;
 }
 
-.lower-container h4 {
+.lower_container h4 {
   color: #7F00FF;
   opacity: .6;
   font-weight: bold;
   margin-top: 15px;
 }
 
-.lower-container p {
+.lower_container p {
   font-size: 16px;
   color: gray;
   margin-bottom: 30px;
   margin-top: 20px;
 }
 
-.lower-container .btn {
+.lower_container .btn {
   padding: 12px 20px;
   background: #7F00FF;
   border: none;
@@ -277,7 +225,7 @@ h4 {
   transition: all .3s ease-in;
 }
 
-.lower-container .btn:hover {
+.lower_container .btn:hover {
   background: transparent;
   color: #7F00FF;
   border: 2px solid #7F00FF;
@@ -340,72 +288,4 @@ h4 {
   margin-left: auto;
   margin-right: 65px;
 }
-
-/* Start Footer */
-footer {
-  background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.8)), to(#000));
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), #000 100%);
-  color: #fff;
-  padding: 60px 0;
-  margin-top: 1000px;
-  text-align: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  font-family: 'Montserrat', sans-serif;
-}
-
-footer ul {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin-bottom: 25px;
-  list-style: none;
-}
-
-footer img {
-  width: 100px;
-  cursor: pointer;
-}
-
-li.icon-hover {
-  display: none;
-}
-
-.icon:hover + li {
-  display: block;
-}
-
-.icon:hover {
-  display: none;
-}
-
-.icon-caption img {
-  width: 200px;
-  padding-left: 30px;
-  margin-bottom: 20px;
-}
-
-footer p {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 14px;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  margin-left: 10px;
-}
-
-@media screen and (max-width: 800px) {
-  footer {
-    padding: 80px 15px;
-  }
-}
-
-/* End Footer */
-/*# sourceMappingURL=Profile.css.map */
+/*# sourceMappingURL=Profile.module.css.map */
