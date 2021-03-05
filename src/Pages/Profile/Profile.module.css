@@ -302,6 +302,8 @@ h4 {
 .table td[data-label]:hover{
 	background-color: #E5B831;
 	cursor: pointer;
+  font-weight: bold;
+  transition: .6s;
 }
 
 /* Responsive  */
@@ -310,7 +312,7 @@ h4 {
 	.table{
 		border: none;
 	}
-  
+
 	.table thead{
 		display: none;
 	}
