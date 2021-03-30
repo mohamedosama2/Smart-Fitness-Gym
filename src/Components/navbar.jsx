@@ -34,7 +34,7 @@ export const Nav = (props) => {
                 <Link to="/contact">contact us</Link>
               </li>
               <li>
-                <Link to="#">about</Link>
+                <Link to="/about">about</Link>
               </li>
             </ul>
           </div>
