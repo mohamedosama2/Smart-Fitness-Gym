@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
+@media only screen and (min-width:120em) {
+  header{
+  background-size: 104%;
+  }
+  
+}
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  min-width: 100vw;
+  height: 170px;
+  background-image: url(../../images/navbar.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.navbar {
+  padding: 0;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brandlogo img {
+  width: 80px; 
+  margin-bottom: -30px;
+}
+
+@media only screen and (max-width:67em){
+  .brandlogo img{
+   margin: 0;
+   padding: 0;
+  }
+}
+
+.navbarlinks ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  padding-left: 94px;
+
+}
+
+@media only screen and (max-width:67em){
+  .navbarlinks {
+   display: none;
+  }
+}
+
+.toggler{
+  display: none;
+  
+}
+.toggler svg{
+  fill: #d9a404;
+}
+@media only screen and (max-width:67em){
+  .toggler {
+    display: block;
+    padding: 22px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  li{
+    padding: 10px 0px;
+    cursor: pointer;
+  }
+  li:hover{
+    background-color: #d9a404;
+  }
+  li:hover a{
+    color: #000;
+    font-weight: 800;
+  }
+}
+
+.navbarlinks li{
+  list-style: none;
+}
+.navbarlinks li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+  padding: 1rem;
+  display: block;
+}
+
+.navbarlinks li:hover {
+  background-color: #df5277;
+  transition: 1s;
+}
+
+.register {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+
+  display: flex;
+
+  padding-right: 20px;
+  margin-bottom: -30px;
+}
+
+@media only screen and (max-width:67em){
+  .register {
+   display: none;
+  }
+}
+
+.login a {
+  color: #EE4673;
+  padding-right: 10px;
+  text-decoration: none;
+}
+
+.signup a {
+  color: #d9a404;
+  padding: 0px 10px;
+  text-decoration: none;
+}
+
+.line {
+  color: #fff;
+}
+
+.signup a:hover {
+  color: #d9a404;
+  text-decoration: underline;
+}
+.login a:hover{
+  color: #EE4673;
+  text-decoration: underline;
+}
