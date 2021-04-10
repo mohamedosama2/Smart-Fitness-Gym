@@ -350,4 +350,66 @@ h4 {
 	}
 
 }
+
+.Alert{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  -moz-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  -o-transform: translate(-50%,-50%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s;
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s;
+  -ms-transition: all .3s;
+  -o-transition: all .3s;
+}
+
+.additions{
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  color: white;
+  padding: 20px;
+  padding:30px ;
+}
+.additions button{
+ transition: all .3s;
+ -webkit-transition: all .3s;
+ -moz-transition: all .3s;
+ -ms-transition: all .3s;
+ -o-transition: all .3s;
+}
+.additions button:hover{
+  background-color: #fff;
+  color: #000;
+}
+.myFood{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.myFood button{
+  border: none;
+  background-color: #000;
+  color: #fff;
+  padding: 15px;
+  margin-right: 6px;
+  transition: all .3s;
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s;
+  -ms-transition: all .3s;
+  -o-transition: all .3s;
+}
+.myFood button:hover{
+  background-color: #fff;
+  color: #000;
+}
+.myFood button:focus{
+  outline: none;
+}
 /* end table */
