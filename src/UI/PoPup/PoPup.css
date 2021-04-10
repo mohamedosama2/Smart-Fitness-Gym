@@ -18,6 +18,10 @@
   -ms-transition: all .3s;
   -o-transition: all .3s;
   padding: 8rem;
+<<<<<<< HEAD
+=======
+  overflow-x: auto;
+>>>>>>> eb14e2959be1b93a59a06b680fa1a20037ab8c13
 }
 
 .PoPup .X {
