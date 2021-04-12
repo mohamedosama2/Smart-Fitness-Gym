@@ -127,8 +127,9 @@ function FoodPopup(props) {
 	let table = (
 		<div style={{ color: '#fff' }}>
 			<input
-				style={{ margin: ' 0 auto', display: 'block' }}
+				style={{ margin: ' 0 auto', display: 'block', color: '#fff' }}
 				type="search"
+				placeholder="Search For Food .. "
 				onChange={(e) => {
 					return setSearch(e.target.value);
 				}}
