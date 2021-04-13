@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import s from "../Pages/Profile/Profile.module.css";
 import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
 import Spinner from "../UI/Spinner/Spinner";
 
 function FoodPopup(props) {
@@ -57,8 +56,6 @@ function FoodPopup(props) {
       var res = calPg + calPerGrams;
 
       res = parseFloat(res);
-      // console.log(res);
-      // console.log(ing)
 
       setMyIngredients([...new Set([ing, ...myIngredients])]);
 
@@ -125,8 +122,9 @@ function FoodPopup(props) {
   let table = (
     <div style={{ color: "#fff" }}>
       <input
-        style={{ margin: " 0 auto", display: "block" }}
+        style={{ margin: " 0 auto", display: "block", color: "#fff" }}
         type="search"
+        placeholder="Search For Food .. "
         onChange={(e) => {
           return setSearch(e.target.value);
         }}
@@ -157,8 +155,8 @@ function FoodPopup(props) {
         </div>
       </div>
       <div className={s.myFood}>
-        <div style={{ marginLeft: "75px", marginBottom: "20px" }}>Food</div>
-        <div style={{ marginBottom: "20px" }}>Cal</div>
+        <div className={s.myfood__name}>Current Food</div>
+        <div className={s.myfood__cal}>Current Calories</div>
       </div>
       <div className={s.myFood}>
         <div>
@@ -166,18 +164,12 @@ function FoodPopup(props) {
             return <button>{f.food.food}</button>;
           })}
         </div>
-        <div>{alCalories}</div>
+        <div className={s.cal_num}>{alCalories}</div>
         {/* <div>{calPg}</div> */}
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: "20px",
-          alignItems: "flex-end",
-        }}
-      >
-        <span> Choosed Ingredients </span>
+      <hr />
+      <div className={s.newFood}>
+        <div className={s.newFood__name}> New Food </div>
         <div style={{ display: "flex" }}>
           {" "}
           {myIngredients.map((m) => (
@@ -207,7 +199,7 @@ function FoodPopup(props) {
                 {" "}
                 <span style={{ margin: "0 5px" }}>{m.userGrams}</span>{" "}
                 <input
-                  style={{ width: "100px", height: "30px" }}
+                  style={{ width: "70px", height: "30px" }}
                   type="number"
                   defaultValue="1"
                   //   value={m.userGrams}
@@ -238,16 +230,11 @@ function FoodPopup(props) {
           ))}{" "}
         </div>
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: "20px",
-          alignItems: "flex-end",
-        }}
-      >
-        <span>Total choosen Calories</span>
-        <span>{parseFloat(calPg).toPrecision(5)}</span>
+      <div className={s.newFood}>
+        <div className={s.newFood__cal}> New Calories</div>
+        <div className={s.newFood_cal_num}>
+          {parseFloat(calPg).toPrecision(5)}
+        </div>
       </div>
       <button
         style={{
@@ -256,6 +243,8 @@ function FoodPopup(props) {
           color: "#d9a404",
           marginRight: "5px",
           marginBottom: "5px",
+          paddingRight: "15px",
+          paddingLeft: "15px",
           display: "block",
           margin: "auto",
         }}

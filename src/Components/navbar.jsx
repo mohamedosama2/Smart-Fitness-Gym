@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import logo from "../images/Logo/icon.png";
-import style from "../assets/css/navbar.module.css";
-import TocIcon from "@material-ui/icons/Toc";
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import logo from '../images/Logo/icon.png';
+import style from '../assets/css/navbar.module.css';
+import TocIcon from '@material-ui/icons/Toc';
 
 export const Nav = (props) => {
   return (
