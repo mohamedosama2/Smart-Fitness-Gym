@@ -22,14 +22,14 @@ export const Nav = (props) => {
                 <Link to="/">home</Link>
               </li>
               <li>
-                <Link to="#">programs</Link>
+                <Link to="/videoCategories">categories</Link>
               </li>
               <li>
-                <Link to="#">healthy living</Link>
+                <Link to="/profile">profile</Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="#">community</Link>
-              </li>
+              </li> */}
               <li>
                 <Link to="/contact">contact us</Link>
               </li>

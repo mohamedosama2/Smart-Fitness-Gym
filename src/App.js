@@ -10,9 +10,10 @@ import Sidebar from "./UI/Sidebar/Sidebar";
 import Backdrop from "./UI/Backdrop/Backdrop";
 import PoPup from "./UI/PoPup/PoPup";
 import Profile from "./Pages/Profile/Profile";
+import Online from "./Components/online";
+import VideoCategory from './Components/videoCategories'
+import Videos from './Components/videos'
 function App() {
-  // let met=useRef()
-
   const [open, setOpen] = useState(false);
   const [u, setU] = useState(false);
   const [m, setM] = useState(false);
@@ -66,8 +67,6 @@ function App() {
           closeHandler={closeHandler2}
         />
         <Switch>
-          {/* <Route exact path='/signup' component={Signup} />
-              <Route exact path='/login' component= {Login} /> */}
           <Route
             exact
             path="/"
@@ -86,12 +85,11 @@ function App() {
               />
             )}
           />
-          {/* <Route exact path='/' render={(props) => <Home closeHandler2={closeHandler2} {...props} />} /> */}
           <Route exact path="/contact" component={Contact} />
           <Route exact path="/about" component={About} />
-          {/* <Route exact path='/forget' component= {ForgetPassword} />
-              <Route exact path='/verify' component= {Verify} />
-              <Route exact path='/reset' component= {ResetPassword} /> */}
+          <Route exact path="/online/:id" component={Online} />
+          <Route exact path="/videoCategories" component={VideoCategory} />
+          <Route exact path="/Videos/:id" component={Videos} />
         </Switch>
       </BrowserRouter>
     </React.Fragment>

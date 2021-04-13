@@ -50,6 +50,8 @@ function Profile(props) {
   const [currentWeekWeight, setCurrentWeekWeight] = useState([]);
   const [currentWeekPerfectPath, setCurrentWeekPerfectPath] = useState([]);
 
+  
+
   useEffect(() => {
     axios
       .get("fetch-profile")
