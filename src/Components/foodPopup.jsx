@@ -80,9 +80,8 @@ function FoodPopup(props) {
   };
 
   const updateHandler = () => {
-    console.log(allCalories <= calPg);
+    // console.log(allCalories <= calPg);
     if (allCalories <= calPg) {
-      console.log("loading");
       setLoading(true);
       let arr = [];
       myIngredients.map((i) => {
@@ -105,6 +104,7 @@ function FoodPopup(props) {
           setAlCalories(0);
           setLoading(false);
           setSearch("");
+		  
         })
         .catch((err) => {
           console.error(err);
@@ -117,7 +117,6 @@ function FoodPopup(props) {
     }
   };
 
-  //   console.log(myIngredients)
 
   let table = (
     <div style={{ color: "#fff" }}>
