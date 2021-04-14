@@ -235,7 +235,7 @@ function FoodPopup(props) {
           {parseFloat(calPg).toPrecision(5)}
         </div>
       </div>
-      {props.params ? (
+      {props.param ? (
         ""
       ) : (
         <button
