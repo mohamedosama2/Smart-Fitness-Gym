@@ -59,6 +59,7 @@ function Profile(props) {
           : `fetch-profile`
       )
       .then((res) => {
+        console.log(res);
         setProfile(res.data.user);
         setSystem(res.data.system);
         let newWeeks = generateRanges(
@@ -118,7 +119,7 @@ function Profile(props) {
   }, [loading, loading2, loading3, props.open2]);
 
   useEffect(() => {
-    axios.get("/fetch-gyms?limit=3").then((res) => {
+    axios.get("/getUsers?limit=3").then((res) => {
       setTrainers(res.data.docs);
     });
   }, []);
@@ -147,10 +148,11 @@ function Profile(props) {
     if (indexOfStevie !== dates.length - 1) {
       setCurrent(dates[indexOfStevie + 1].date);
       axios
-        .get(props.match.params.id
-          ? `getSystemByDate?date=${current}&&id=${props.match.params.id}`
-          : `getSystemByDate?date=${current}`
-          )
+        .get(
+          props.match.params.id
+            ? `getSystemByDate?date=${current}&&id=${props.match.params.id}`
+            : `getSystemByDate?date=${current}`
+        )
         .then((res) => {
           setSystem(res.data);
         })
@@ -254,7 +256,9 @@ function Profile(props) {
     }
   };
 
-  let updateButton = (
+  let updateButton = props.match.params.id ? (
+    ""
+  ) : (
     <label
       style={{
         background: "black",
@@ -271,18 +275,23 @@ function Profile(props) {
       update
     </label>
   );
+
   if (loading === true) {
     updateButton = <Spinner />;
   }
 
   let weightComponent = (
     <div>
-      <img
-        src={add}
-        alt="add"
-        style={{ cursor: "pointer" }}
-        onClick={() => (weight.current.style.display = "block")}
-      />{" "}
+      {props.match.params.id ? (
+        ""
+      ) : (
+        <img
+          src={add}
+          alt="add"
+          style={{ cursor: "pointer" }}
+          onClick={() => (weight.current.style.display = "block")}
+        />
+      )}
       <span>Weight: </span>
       {profile
         ? profile.weights
@@ -318,12 +327,16 @@ function Profile(props) {
 
   let heightComponent = (
     <div>
-      <img
-        src={add}
-        alt="add"
-        style={{ cursor: "pointer" }}
-        onClick={() => (height.current.style.display = "block")}
-      />
+      {props.match.params.id ? (
+        ""
+      ) : (
+        <img
+          src={add}
+          alt="add"
+          style={{ cursor: "pointer" }}
+          onClick={() => (height.current.style.display = "block")}
+        />
+      )}
       <span>height: </span>
       {profile
         ? profile.heights
@@ -375,40 +388,46 @@ function Profile(props) {
               alt="profile"
               ref={imga}
             />
-            <img
-              className={s.add_img}
-              src={add}
-              alt="add"
-              style={{ cursor: "pointer" }}
-            />
-            <label htmlFor="img" className={s.add_img} ref={labe}>
-              <input
-                type="file"
-                style={{ opacity: 0 }}
-                id="img"
-                onChange={(event) => {
-                  if (event.target.files[0]) {
-                    const form = new FormData();
-                    form.append("photo", event.target.files[0]);
-                    axios
-                      .patch("profile", form)
-                      .then((res) => {})
-                      .catch((err) => {
-                        console.error(err);
-                      });
+            {props.match.params.id ? (
+              ""
+            ) : (
+              <>
+                <img
+                  className={s.add_img}
+                  src={add}
+                  alt="add"
+                  style={{ cursor: "pointer" }}
+                />
+                <label htmlFor="img" className={s.add_img} ref={labe}>
+                  <input
+                    type="file"
+                    style={{ opacity: 0 }}
+                    id="img"
+                    onChange={(event) => {
+                      if (event.target.files[0]) {
+                        const form = new FormData();
+                        form.append("photo", event.target.files[0]);
+                        axios
+                          .patch("profile", form)
+                          .then((res) => {})
+                          .catch((err) => {
+                            console.error(err);
+                          });
 
-                    var selectedFile = event.target.files[0];
-                    var reader = new FileReader();
+                        var selectedFile = event.target.files[0];
+                        var reader = new FileReader();
 
-                    imga.current.title = selectedFile.name;
-                    reader.onload = function (event) {
-                      imga.current.src = event.target.result;
-                    };
-                    reader.readAsDataURL(selectedFile);
-                  }
-                }}
-              />
-            </label>
+                        imga.current.title = selectedFile.name;
+                        reader.onload = function (event) {
+                          imga.current.src = event.target.result;
+                        };
+                        reader.readAsDataURL(selectedFile);
+                      }
+                    }}
+                  />
+                </label>
+              </>
+            )}
           </div>
           <div className={s.info}>
             <h4>
@@ -548,7 +567,8 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[0].sys[0],
                       system.syst[0]._id,
-                      system.syst[0].system[0]._id
+                      system.syst[0].system[0]._id,
+                      props.match.params.id
                     );
                 }}
               >
@@ -566,10 +586,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[1].sys[0],
                       system.syst[0]._id,
-                      system.syst[0].system[1]._id
+                      system.syst[0].system[1]._id,
+                      props.match.params.id
                     );
-
-                  // props.openHandler2p"/food",rops.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -586,9 +605,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[2].sys[0],
                       system.syst[0]._id,
-                      system.syst[0].system[2]._id
+                      system.syst[0].system[2]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -605,9 +624,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[3].sys[0],
                       system.syst[0]._id,
-                      system.syst[0].system[3]._id
+                      system.syst[0].system[3]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -624,9 +643,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[4].sys[0],
                       system.syst[0]._id,
-                      system.syst[0].system[4]._id
+                      system.syst[0].system[4]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -643,9 +662,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[5].sys[0],
                       system.syst[0]._id,
-                      system.syst[0].system[5]._id
+                      system.syst[0].system[5]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -662,9 +681,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[6].sys[0],
                       system.syst[0]._id,
-                      system.syst[0].system[6]._id
+                      system.syst[0].system[6]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -685,10 +704,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[0].sys[1],
                       system.syst[0]._id,
-                      system.syst[0].system[0]._id
+                      system.syst[0].system[0]._id,
+                      props.match.params.id
                     );
-
-                  // props.openHandler2p"/food",rops.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -705,10 +723,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[1].sys[1],
                       system.syst[0]._id,
-                      system.syst[0].system[1]._id
+                      system.syst[0].system[1]._id,
+                      props.match.params.id
                     );
-
-                  // props.openHandler2p"/food",rops.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -725,9 +742,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[2].sys[1],
                       system.syst[0]._id,
-                      system.syst[0].system[2]._id
+                      system.syst[0].system[2]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -744,9 +761,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[3].sys[1],
                       system.syst[0]._id,
-                      system.syst[0].system[3]._id
+                      system.syst[0].system[3]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -762,9 +779,10 @@ function Profile(props) {
                     props.openHandler2(
                       "/food",
                       system.syst[0].system[4].sys[1],
-                      system.syst[0].system[4]._id
+                      system.syst[0].system[4]._id,
+                      system.syst[0].system[4]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -781,9 +799,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[5].sys[1],
                       system.syst[0]._id,
-                      system.syst[0].system[5]._id
+                      system.syst[0].system[5]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -800,9 +818,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[6].sys[1],
                       system.syst[0]._id,
-                      system.syst[0].system[6]._id
+                      system.syst[0].system[6]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -823,10 +841,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[0].sys[2],
                       system.syst[0]._id,
-                      system.syst[0].system[0]._id
+                      system.syst[0].system[0]._id,
+                      props.match.params.id
                     );
-
-                  // props.openHandler2p"/food",rops.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -843,10 +860,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[1].sys[2],
                       system.syst[0]._id,
-                      system.syst[0].system[1]._id
+                      system.syst[0].system[1]._id,
+                      props.match.params.id
                     );
-
-                  // props.openHandler2p"/food",rops.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -863,9 +879,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[2].sys[2],
                       system.syst[0]._id,
-                      system.syst[0].system[2]._id
+                      system.syst[0].system[2]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -882,9 +898,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[3].sys[2],
                       system.syst[0]._id,
-                      system.syst[0].system[3]._id
+                      system.syst[0].system[3]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -901,9 +917,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[4].sys[2],
                       system.syst[0]._id,
-                      system.syst[0].system[4]._id
+                      system.syst[0].system[4]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -920,9 +936,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[5].sys[2],
                       system.syst[0]._id,
-                      system.syst[0].system[5]._id
+                      system.syst[0].system[5]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -939,9 +955,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[6].sys[2],
                       system.syst[0]._id,
-                      system.syst[0].system[6]._id
+                      system.syst[0].system[6]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -962,10 +978,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[0].sys[3],
                       system.syst[0]._id,
-                      system.syst[0].system[0]._id
+                      system.syst[0].system[0]._id,
+                      props.match.params.id
                     );
-
-                  // props.openHandler2p"/food",rops.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -982,7 +997,8 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[1].sys[3],
                       system.syst[0]._id,
-                      system.syst[0].system[1]._id
+                      system.syst[0].system[1]._id,
+                      props.match.params.id
                     );
                 }}
               >
@@ -1000,9 +1016,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[2].sys[3],
                       system.syst[0]._id,
-                      system.syst[0].system[2]._id
+                      system.syst[0].system[2]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -1019,9 +1035,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[3].sys[3],
                       system.syst[0]._id,
-                      system.syst[0].system[3]._id
+                      system.syst[0].system[3]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -1038,9 +1054,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[4].sys[3],
                       system.syst[0]._id,
-                      system.syst[0].system[4]._id
+                      system.syst[0].system[4]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -1057,9 +1073,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[5].sys[3],
                       system.syst[0]._id,
-                      system.syst[0].system[5]._id
+                      system.syst[0].system[5]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -1076,9 +1092,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[6].sys[3],
                       system.syst[0]._id,
-                      system.syst[0].system[6]._id
+                      system.syst[0].system[6]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -1099,10 +1115,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[0].sys[4],
                       system.syst[0]._id,
-                      system.syst[0].system[0]._id
+                      system.syst[0].system[0]._id,
+                      props.match.params.id
                     );
-
-                  // props.openHandler2p"/food",rops.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -1119,10 +1134,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[1].sys[4],
                       system.syst[0]._id,
-                      system.syst[0].system[1]._id
+                      system.syst[0].system[1]._id,
+                      props.match.params.id
                     );
-
-                  // props.openHandler2p"/food",rops.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -1139,9 +1153,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[2].sys[4],
                       system.syst[0]._id,
-                      system.syst[0].system[2]._id
+                      system.syst[0].system[2]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -1158,9 +1172,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[3].sys[4],
                       system.syst[0]._id,
-                      system.syst[0].system[3]._id
+                      system.syst[0].system[3]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -1177,9 +1191,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[4].sys[4],
                       system.syst[0]._id,
-                      system.syst[0].system[4]._id
+                      system.syst[0].system[4]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);,
                 }}
               >
                 {system
@@ -1196,9 +1210,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[5].sys[4],
                       system.syst[0]._id,
-                      system.syst[0].system[5]._id
+                      system.syst[0].system[5]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -1215,9 +1229,9 @@ function Profile(props) {
                       "/food",
                       system.syst[0].system[6].sys[4],
                       system.syst[0]._id,
-                      system.syst[0].system[6]._id
+                      system.syst[0].system[6]._id,
+                      props.match.params.id
                     );
-                  // props.openHandler2("/food", food);
                 }}
               >
                 {system
@@ -1229,10 +1243,7 @@ function Profile(props) {
             </tr>
           </tbody>
         </table>
-        ){/* }) (
-        ) : (
-          ""
-        )} */}
+
         <hr />
         <div className={s.charts}>
           <h3 style={{ marginLeft: "30px" }}>Motivation Charts</h3>
@@ -1277,28 +1288,47 @@ function Profile(props) {
         <hr />
         <div className={s.cards}>
           {trainers.length > 0
-            ? trainers.map((t) => {
+            ? trainers.map((trainer) => {
                 return (
                   <div className={s.card_container}>
                     <div className={s.upper_container}>
                       <div className={s.image_container}>
-                        <img src={profile} />
+                        <img src={trainer.photo} />
                       </div>
                     </div>
 
                     <div className={s.lower_container}>
                       <div>
-                        <h3>Alaina Wick</h3>
-                        <h4>Front-end Developer</h4>
+                        <h3>{trainer.username}</h3>
+                        <div className={s.weight}>
+                          <h4>
+                            Before:{" "}
+                            <span>
+                              {" "}
+                              {trainer.weights[0]
+                                ? trainer.weights[0].weight
+                                : "begainer"}{" "}
+                            </span>{" "}
+                            kg{" "}
+                          </h4>
+                          <h4>
+                            After:{" "}
+                            <span>
+                              {" "}
+                              {trainer.weights[trainer.weights.length - 1]
+                                ? trainer.weights[trainer.weights.length - 1]
+                                    .weight
+                                : "begainer"}{" "}
+                            </span>{" "}
+                            kg{" "}
+                          </h4>
+                        </div>
+                      </div>
+                      <div className={s.points}>
+                        🏆 Points: <span>50</span>
                       </div>
                       <div>
-                        <p>
-                          sodales accumsan ligula. Aenean sed diam tristique,
-                          fermentum mi nec, ornare arcu.
-                        </p>
-                      </div>
-                      <div>
-                        <a href="#" className={s.btn}>
+                        <a href={`/profile/${trainer.id}`} className={s.btn}>
                           View profile
                         </a>
                       </div>
@@ -1307,32 +1337,6 @@ function Profile(props) {
                 );
               })
             : ""}
-
-          <div className={s.card_container}>
-            <div className={s.upper_container}>
-              <div className={s.image_container}>
-                <img src={profile} />
-              </div>
-            </div>
-
-            <div className={s.lower_container}>
-              <div>
-                <h3>Alaina Wick</h3>
-                <h4>Front-end Developer</h4>
-              </div>
-              <div>
-                <p>
-                  sodales accumsan ligula. Aenean sed diam tristique, fermentum
-                  mi nec, ornare arcu.
-                </p>
-              </div>
-              <div>
-                <a href="#" className={s.btn}>
-                  View profile
-                </a>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>

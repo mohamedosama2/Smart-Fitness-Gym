@@ -9,7 +9,9 @@ function FoodPopup(props) {
 
   const [alCalories, setAlCalories] = useState(0);
   let allCalories = 0;
-
+  console.log(props.param)
+  console.log(props.outer)
+  
   useEffect(() => {
     setCalPg(0);
     setMyIngredients([]);
@@ -104,7 +106,6 @@ function FoodPopup(props) {
           setAlCalories(0);
           setLoading(false);
           setSearch("");
-		  
         })
         .catch((err) => {
           console.error(err);
@@ -116,7 +117,6 @@ function FoodPopup(props) {
         });
     }
   };
-
 
   let table = (
     <div style={{ color: "#fff" }}>
@@ -235,24 +235,27 @@ function FoodPopup(props) {
           {parseFloat(calPg).toPrecision(5)}
         </div>
       </div>
-      <button
-        style={{
-          border: "1px solid",
-          background: "black",
-          color: "#d9a404",
-          marginRight: "5px",
-          marginBottom: "5px",
-          paddingRight: "15px",
-          paddingLeft: "15px",
-          display: "block",
-          margin: "auto",
-        }}
-        onClick={() => updateHandler()}
-      >
-        {" "}
-        Update Item{" "}
-      </button>
-      {/* <div>Total choosen Calories</div> */}
+      {props.params ? (
+        ""
+      ) : (
+        <button
+          style={{
+            border: "1px solid",
+            background: "black",
+            color: "#d9a404",
+            marginRight: "5px",
+            marginBottom: "5px",
+            paddingRight: "15px",
+            paddingLeft: "15px",
+            display: "block",
+            margin: "auto",
+          }}
+          onClick={() => updateHandler()}
+        >
+          {" "}
+          Update Item{" "}
+        </button>
+      )}
     </div>
   );
 
