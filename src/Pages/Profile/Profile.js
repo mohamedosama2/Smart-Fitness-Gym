@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import s from "./Profile.module.css";
 import add from "../../images/add.png";
-// import profile from "../../images/profile.jpg";
 import line from "../../images/svg/line.svg";
 import axios from "axios";
 import moment from "moment";
@@ -54,7 +53,11 @@ function Profile(props) {
 
   useEffect(() => {
     axios
-      .get("fetch-profile")
+      .get(
+        props.match.params.id
+          ? `fetch-profile?id=${props.match.params.id}`
+          : `fetch-profile`
+      )
       .then((res) => {
         setProfile(res.data.user);
         setSystem(res.data.system);
@@ -100,7 +103,11 @@ function Profile(props) {
       });
 
     axios
-      .get("getDates")
+      .get(
+        props.match.params.id
+          ? `getDates?id=${props.match.params.id}`
+          : `getDates`
+      )
       .then((res) => {
         setDates(res.data.syst);
         setCurrent(res.data.syst[0].date);
@@ -121,7 +128,11 @@ function Profile(props) {
     if (indexOfStevie !== 0) {
       setCurrent(dates[indexOfStevie - 1].date);
       axios
-        .get(`getSystemByDate?date=${current}`)
+        .get(
+          props.match.params.id
+            ? `getSystemByDate?date=${current}&&id=${props.match.params.id}`
+            : `getSystemByDate?date=${current}`
+        )
         .then((res) => {
           setSystem(res.data);
         })
@@ -136,7 +147,10 @@ function Profile(props) {
     if (indexOfStevie !== dates.length - 1) {
       setCurrent(dates[indexOfStevie + 1].date);
       axios
-        .get(`getSystemByDate?date=${current}`)
+        .get(props.match.params.id
+          ? `getSystemByDate?date=${current}&&id=${props.match.params.id}`
+          : `getSystemByDate?date=${current}`
+          )
         .then((res) => {
           setSystem(res.data);
         })
