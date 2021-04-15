@@ -38,7 +38,7 @@ function PoPup(props) {
       ) : props.url === "/chooseWay" ? (
         <Choose openHandler2={props.clickHandler2} />
       ) : props.url === "/food" ? (
-        <FoodPopup openHandler2={props.clickHandler2} food={props.method} outer={props.outer} inner={props.inner} />
+        <FoodPopup openHandler2={props.clickHandler2} food={props.method} outer={props.outer} inner={props.inner} param={props.param} />
       ) : (
         <Signup openHandler2={props.clickHandler2} method={props.method}  />
       )}
