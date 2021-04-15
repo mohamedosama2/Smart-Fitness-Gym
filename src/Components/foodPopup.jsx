@@ -9,8 +9,8 @@ function FoodPopup(props) {
 
   const [alCalories, setAlCalories] = useState(0);
   let allCalories = 0;
-  console.log(props.param)
-  console.log(props.outer)
+  // console.log(props.param)
+  // console.log(props.outer)
   
   useEffect(() => {
     setCalPg(0);
