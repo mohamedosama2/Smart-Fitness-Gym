@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import s from "./Profile.module.css";
 import add from "../../images/add.png";
 import line from "../../images/svg/line.svg";
@@ -9,6 +9,11 @@ import Spinner from "../../UI/Spinner/Spinner";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import LineChart from "../../Components/chartjs";
+import TraineeCard from "../../Components/TraineeCard";
+import TrainerCard from "../../Components/TrainerCard";
+import style2 from "../../assets/css/navbar.module.css";
+import AlertContext from "../../context/alerts-context";
+import _ from "lodash";
 
 function generateRanges(startDate, endDate) {
   let current = moment(startDate, "DD/MM/YYYY");
@@ -49,9 +54,25 @@ function Profile(props) {
   const [currentWeekWeight, setCurrentWeekWeight] = useState([]);
   const [currentWeekPerfectPath, setCurrentWeekPerfectPath] = useState([]);
 
+  const [trainees, setTraineees] = useState([]);
   const [trainers, setTrainers] = useState([]);
 
+  const alers = useContext(AlertContext);
+
+  const al = _.find(
+    alers.alerts,
+    _.matchesProperty("user", {
+      id: profile ? profile.id : "",
+      username: profile ? profile.username : "",
+      photo: profile ? profile.photo : "",
+      role: profile ? profile.role : "",
+    })
+  );
+
+  // console.log(al)
+
   useEffect(() => {
+    // console.log(props.match.params.id);
     axios
       .get(
         props.match.params.id
@@ -82,7 +103,7 @@ function Profile(props) {
                   moment(newWeeks[weekIndex + 1])
                 )
               ) {
-                ws.push(w.weight);
+                return ws.push(w.weight);
               }
             });
             setCurrentWeekWeight(ws);
@@ -93,7 +114,7 @@ function Profile(props) {
                   moment(newWeeks[weekIndex + 1])
                 )
               )
-                pws.push(w.weight);
+                return pws.push(w.weight);
             });
             setCurrentWeekPerfectPath(pws);
           }
@@ -116,109 +137,125 @@ function Profile(props) {
       .catch((err) => {
         console.error(err);
       });
-  }, [loading, loading2, loading3, props.open2]);
+  }, [
+    loading,
+    loading2,
+    loading3,
+    props.open2,
+    // props.match.params.id,
+    // weekIndex,
+  ]);
 
   useEffect(() => {
     axios.get("/getUsers?limit=3").then((res) => {
+      setTraineees(res.data.docs);
+    });
+    axios.get("/fetch-gyms?limit=3").then((res) => {
       setTrainers(res.data.docs);
     });
   }, []);
 
   const leftToggle = () => {
-    var indexOfStevie = dates.findIndex((i) => i.date === current);
-    if (indexOfStevie !== 0) {
-      setCurrent(dates[indexOfStevie - 1].date);
-      axios
-        .get(
-          props.match.params.id
-            ? `getSystemByDate?date=${current}&&id=${props.match.params.id}`
-            : `getSystemByDate?date=${current}`
-        )
-        .then((res) => {
-          setSystem(res.data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+    if (system) {
+      var indexOfStevie = dates.findIndex((i) => i.date === current);
+      if (indexOfStevie !== 0) {
+        setCurrent(dates[indexOfStevie - 1].date);
+        axios
+          .get(
+            props.match.params.id
+              ? `getSystemByDate?date=${current}&&id=${props.match.params.id}`
+              : `getSystemByDate?date=${current}`
+          )
+          .then((res) => {
+            setSystem(res.data);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
     }
   };
 
   const rightToggle = () => {
-    var indexOfStevie = dates.findIndex((i) => i.date === current);
-    if (indexOfStevie !== dates.length - 1) {
-      setCurrent(dates[indexOfStevie + 1].date);
-      axios
-        .get(
-          props.match.params.id
-            ? `getSystemByDate?date=${current}&&id=${props.match.params.id}`
-            : `getSystemByDate?date=${current}`
-        )
-        .then((res) => {
-          setSystem(res.data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+    if (system) {
+      var indexOfStevie = dates.findIndex((i) => i.date === current);
+      if (indexOfStevie !== dates.length - 1) {
+        setCurrent(dates[indexOfStevie + 1].date);
+        axios
+          .get(
+            props.match.params.id
+              ? `getSystemByDate?date=${current}&&id=${props.match.params.id}`
+              : `getSystemByDate?date=${current}`
+          )
+          .then((res) => {
+            setSystem(res.data);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
     }
   };
 
   const leftToggleChart = () => {
-    if (weekIndex - 1 !== -1) {
-      let ws = [];
-      let pws = [];
-      profile.weights.map((w) => {
-        if (
-          moment(w.date).isBetween(
-            moment(weeks[weekIndex - 1]),
-            moment(weeks[weekIndex])
+    if (system)
+      if (weekIndex - 1 !== -1) {
+        let ws = [];
+        let pws = [];
+        profile.weights.map((w) => {
+          if (
+            moment(w.date).isBetween(
+              moment(weeks[weekIndex - 1]),
+              moment(weeks[weekIndex])
+            )
           )
-        )
-          ws.push(w.weight);
-      });
-      setCurrentWeekWeight(ws);
-      system.perfectPathes.map((w) => {
-        if (
-          moment(w.date).isBetween(
-            moment(weeks[weekIndex - 1]),
-            moment(weeks[weekIndex])
+            ws.push(w.weight);
+        });
+        setCurrentWeekWeight(ws);
+        system.perfectPathes.map((w) => {
+          if (
+            moment(w.date).isBetween(
+              moment(weeks[weekIndex - 1]),
+              moment(weeks[weekIndex])
+            )
           )
-        )
-          pws.push(w.weight);
-      });
-      setCurrentWeekPerfectPath(pws);
-      let nextWeek = weekIndex - 1;
+            pws.push(w.weight);
+        });
+        setCurrentWeekPerfectPath(pws);
+        let nextWeek = weekIndex - 1;
 
-      setWeekIndex(nextWeek);
-    }
+        setWeekIndex(nextWeek);
+      }
   };
 
   const rightToggleChart = () => {
-    if (weekIndex + 1 !== weeks.length) {
-      let ws = [];
-      let pws = [];
-      profile.weights.map((w) => {
-        if (
-          moment(w.date).isBetween(
-            moment(weeks[weekIndex + 1]),
-            moment(weeks[weekIndex + 2])
+    if (system)
+      if (weekIndex + 1 !== weeks.length) {
+        let ws = [];
+        let pws = [];
+        profile.weights.map((w) => {
+          if (
+            moment(w.date).isBetween(
+              moment(weeks[weekIndex + 1]),
+              moment(weeks[weekIndex + 2])
+            )
           )
-        )
-          ws.push(w.weight);
-      });
-      setCurrentWeekWeight(ws);
-      system.perfectPathes.map((w) => {
-        if (
-          moment(w.date).isBetween(
-            moment(weeks[weekIndex + 1]),
-            moment(weeks[weekIndex + 2])
+            ws.push(w.weight);
+        });
+        setCurrentWeekWeight(ws);
+        system.perfectPathes.map((w) => {
+          if (
+            moment(w.date).isBetween(
+              moment(weeks[weekIndex + 1]),
+              moment(weeks[weekIndex + 2])
+            )
           )
-        )
-          pws.push(w.weight);
-      });
-      setCurrentWeekPerfectPath(pws);
-      let nextWeek = weekIndex + 1;
-      setWeekIndex(nextWeek);
-    }
+            pws.push(w.weight);
+        });
+        setCurrentWeekPerfectPath(pws);
+        let nextWeek = weekIndex + 1;
+        setWeekIndex(nextWeek);
+      }
   };
 
   const addWeight = () => {
@@ -442,6 +479,53 @@ function Profile(props) {
             </div>
           </div>
         </div>
+        {al ? (
+          <div
+            style={{ margin: "auto", textAlign: "center", marginTop: "-75px" }}
+          >
+            <button
+              className={style2.accept}
+              onClick={() => {
+                console.log("here")
+                setLoading(true);
+                axios
+                  .put(`approve?request=${al.id}`)
+                  .then((res) => {
+                    setLoading(false);
+                    console.log(res);
+                    window.location.href = "/";
+                  })
+                  .catch((err) => {
+                    setLoading(false);
+                    console.log(err);
+                  });
+              }}
+            >
+              accept
+            </button>
+            <button
+              className={style2.decline}
+              onClick={() => {
+                setLoading(true);
+                axios
+                  .put(`gymRefuse?request=${al.id}`)
+                  .then((res) => {
+                    setLoading(false);
+                    console.log(res);
+                    window.location.href = "/";
+                  })
+                  .catch((err) => {
+                    setLoading(false);
+                    console.log(err);
+                  });
+              }}
+            >
+              refuse
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
         {/* images section */}
         <hr />
         <div className={s.Images}>
@@ -1286,58 +1370,58 @@ function Profile(props) {
           />
         </div>
         <hr />
+        <h2> Top Trending users </h2>
         <div className={s.cards}>
-          {trainers.length > 0
-            ? trainers.map((trainer) => {
+          {trainees.length > 0
+            ? trainees.map((trainee) => {
                 return (
-                  <div className={s.card_container}>
-                    <div className={s.upper_container}>
-                      <div className={s.image_container}>
-                        <img src={trainer.photo} />
-                      </div>
-                    </div>
-
-                    <div className={s.lower_container}>
-                      <div>
-                        <h3>{trainer.username}</h3>
-                        <div className={s.weight}>
-                          <h4>
-                            Before:{" "}
-                            <span>
-                              {" "}
-                              {trainer.weights[0]
-                                ? trainer.weights[0].weight
-                                : "begainer"}{" "}
-                            </span>{" "}
-                            kg{" "}
-                          </h4>
-                          <h4>
-                            After:{" "}
-                            <span>
-                              {" "}
-                              {trainer.weights[trainer.weights.length - 1]
-                                ? trainer.weights[trainer.weights.length - 1]
-                                    .weight
-                                : "begainer"}{" "}
-                            </span>{" "}
-                            kg{" "}
-                          </h4>
-                        </div>
-                      </div>
-                      <div className={s.points}>
-                        🏆 Points: <span>50</span>
-                      </div>
-                      <div>
-                        <a href={`/profile/${trainer.id}`} className={s.btn}>
-                          View profile
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+                  <TraineeCard
+                    photo={trainee.photo}
+                    username={trainee.username}
+                    id={trainee.id}
+                    key={trainee.id}
+                    weights={trainee.weights}
+                    heights={trainee.heights}
+                  />
                 );
               })
             : ""}
         </div>
+        <h4 style={{ textAlign: "right", cursor: "pointer" }}>
+          {" "}
+          <span onClick={() => (window.location.href = "/SearchTrainee")}>
+            See More &gt;&gt;
+          </span>
+        </h4>
+        <hr />
+        <h2> Top Trending Trainers </h2>
+        <div className={s.cards}>
+          {trainers.length > 0
+            ? trainers.map((trainer) => {
+                return (
+                  <TrainerCard
+                    photo={trainer.photo}
+                    username={trainer.username}
+                    id={trainer.id}
+                    key={trainer.id}
+                  />
+                );
+              })
+            : ""}
+        </div>
+        <h4
+          style={{
+            textAlign: "right",
+            paddingBottom: "20px",
+            cursor: "pointer",
+            marginBottom: "0",
+          }}
+        >
+          <span onClick={() => (window.location.href = "/SearchTrainer")}>
+            {" "}
+            See More &gt;&gt;
+          </span>
+        </h4>
       </div>
     </section>
   );

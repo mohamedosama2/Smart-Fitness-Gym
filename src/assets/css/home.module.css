@@ -327,15 +327,25 @@
   margin-left: 4px;
   margin-bottom: 10px;
   border-radius: 20px;
+  transition: all .3s;
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s;
+  -ms-transition: all .3s;
+  -o-transition: all .3s;
 }
 
 .cardimg {
   width: 368px;
   border-radius: 20px 20px 0px 0px;
+ 
 }
 
-.cardimg:hover {
-  height: 250px;
+.card:hover {
+  transform:scaleY(1.01);
+  -webkit-transform:scaleY(1.01);
+  -moz-transform:scaleY(1.01);
+  -ms-transform:scaleY(1.01);
+  -o-transform:scaleY(1.01);
 }
 
 .cardcaption {
