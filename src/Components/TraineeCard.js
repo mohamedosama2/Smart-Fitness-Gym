@@ -12,7 +12,7 @@ function TraineeCard(props) {
 
       <div className={s.lower_container}>
         <div>
-          <h3 style={{lineHeight:'initial'}}>{props.username}</h3>
+          <h3 style={{ lineHeight: "initial" }}>{props.username}</h3>
           <div className={s.weight}>
             <h4>
               Before:{" "}
@@ -38,9 +38,15 @@ function TraineeCard(props) {
           🏆 Points: <span>50</span>
         </div>
         <div>
-          <a href={`/profile/${props.id}`} className={s.btn}>
-            View profile
-          </a>
+          {!props.trainer ? (
+            <a href={`/profile/${props.id}`} className={s.btn}>
+              View profile
+            </a>
+          ) : (
+            <a href={`/addDite/${props.id}`} className={s.btn}>
+              Add Diet
+            </a>
+          )}
         </div>
       </div>
     </div>

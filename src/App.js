@@ -16,7 +16,7 @@ import SearchTrainer from "./Components/searchTrainer";
 import Axios from "axios";
 import AuthCont from "./context/auth-context";
 import Table from "./Components/Table";
-
+import Approved from './Components/approvedTrainees'
 function App() {
   const [open, setOpen] = useState(false);
   const [u, setU] = useState(false);
@@ -166,6 +166,7 @@ function App() {
             />
 
             <Route exact path="/searchTrainee" component={SearchTrainee} />
+            <Route exact path="/approvedTrainees" component={Approved} />
             <Route exact path="/searchTrainer" component={SearchTrainer} />
             <Route exact path="/online/:id" component={Online} />
             <Route exact path="/videoCategories" component={VideoCategory} />
