@@ -272,13 +272,15 @@ input:focus {
 }
 .categories__header {
 	font-size: 2rem;
-	margin: 15px;
-	padding: 5px;
+	margin: 10px auto;
+	padding: 5px 0px;
 	font-family: 'Oswald', sans-serif;
 	font-weight: 600;
-	letter-spacing: 1.5px;
-	background-color: #e5b831;
-	width: 20%;
+	letter-spacing: 5px;
+	text-transform: uppercase;
+	color: #fff;
+	background-color: rgba(229, 184, 49, .7);
+	width: 50%;
 	text-align: center;
 	border-radius: 20px;
 	animation: fade 2s ease-in;
