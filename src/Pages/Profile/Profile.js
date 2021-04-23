@@ -476,7 +476,13 @@ function Profile(props) {
               <div>
                 <span>Diet Plan: </span>Intermittent Fasting
               </div>
+
               <div> <button className={s.updateBtn}> Update </button> </div>
+
+              <div className={`${s.modal} ${s.hidden}`}>
+                <button className={s.closeBtn}>&times;</button>
+              </div>
+
             </div>
           </div>
         </div>

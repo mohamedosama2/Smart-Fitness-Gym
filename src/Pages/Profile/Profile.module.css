@@ -90,7 +90,7 @@
 	transform: translateY(54%);
 }
 
-.details div:not(:last-child) {
+.details div:not(:nth-last-child(2)) {
 	margin-right: 30px;
 	padding-right: 20px;
 	font-size: 1.1rem;
@@ -104,7 +104,7 @@
 	letter-spacing: 1px;
 	text-transform: capitalize;
 }
-
+/* _________________________________START UPDATE BUTTON ____________________________*/
 .updateBtn {
 	border: none;
 	outline: none;
@@ -119,6 +119,41 @@
 	border: 2px solid #000;
 }
 
+.modal {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -60%);
+	width: 60vw;
+	height: 70vh;
+
+	background-color: rgba(0, 0, 0, 0.8);
+	border-radius: 5px;
+	z-index: 10;
+}
+
+.closeBtn {
+	position: absolute;
+	top: -1.5rem;
+	right: 1.5rem;
+	font-size: 5rem;
+	color: #ee4673;
+	cursor: pointer;
+	border: none;
+	background: none;
+}
+
+.hidden {
+	display: none;
+}
+
+@media (max-width: 800px) {
+	.modal {
+		width: 100vw;
+		height: 100vh;
+	}
+}
+/* _________________________________End UPDATE BUTTON ____________________________*/
 hr {
 	border: 3px solid #000;
 	width: 100%;
