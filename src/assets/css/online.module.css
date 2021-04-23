@@ -39,7 +39,7 @@ body {
 
 	display: none;
 }
-input:focus {
+.searchBox input:focus {
 	border-left: none;
 }
 .searchIcon {
@@ -377,7 +377,7 @@ input:focus {
 
 .videos {
 	/* display: flex;
-  margin: 80px; */
+		margin: 80px; */
 	display: flex;
 	margin-top: 10px;
 	flex-wrap: wrap;
@@ -460,9 +460,9 @@ input:focus {
 }
 .videos__about {
 	/* display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: column; */
+		align-items: center;
+		justify-content: flex-start;
+		flex-direction: column; */
 	height: 100%;
 	margin-left: 40px;
 }

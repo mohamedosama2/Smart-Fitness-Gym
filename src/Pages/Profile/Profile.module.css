@@ -85,6 +85,7 @@
 	-webkit-box-direction: normal;
 	-ms-flex-direction: row;
 	flex-direction: row;
+	align-items: center;
 	font-family: Oswald, "sans-serif";
 	transform: translateY(54%);
 }
@@ -102,6 +103,20 @@
 	font-size: 1.3rem;
 	letter-spacing: 1px;
 	text-transform: capitalize;
+}
+
+.updateBtn {
+	border: none;
+	outline: none;
+	background-color: #ee4673;
+	border-radius: 15px;
+	padding: 5px 15px;
+	text-transform: uppercase;
+	font-family: Montserrat, "sans-serif";
+}
+
+.updateBtn:hover {
+	border: 2px solid #000;
 }
 
 hr {
