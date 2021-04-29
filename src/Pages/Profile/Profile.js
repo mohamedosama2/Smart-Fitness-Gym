@@ -14,6 +14,7 @@ import TrainerCard from "../../Components/TrainerCard";
 import style2 from "../../assets/css/navbar.module.css";
 import AlertContext from "../../context/alerts-context";
 import _ from "lodash";
+import { Line } from 'react-chartjs-2';
 
 function generateRanges(startDate, endDate) {
   let current = moment(startDate, "DD/MM/YYYY");
@@ -481,8 +482,18 @@ function Profile(props) {
 
               <div className={`${s.modal} ${s.hidden}`}>
                 <button className={s.closeBtn}>&times;</button>
-              </div>
+                <button className={s.nextBtn}>Next</button>
+                <button className={s.backBtn}>Back</button>
 
+                <h1 className={s.question}>What is your fav color ?</h1>
+                <div className={s.answer}>
+                  <button>Red</button>
+                  <button>Green</button>
+                  <button>Blue</button>
+                  <button>Yellow</button>
+                  
+                </div>
+              </div>
             </div>
           </div>
         </div>
