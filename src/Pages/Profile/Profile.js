@@ -486,13 +486,14 @@ function Profile(props) {
                 <button className={s.backBtn}>Back</button>
 
                 <h1 className={s.question}>What is your fav color ?</h1>
+                
                 <div className={s.answer}>
                   <button>Red</button>
                   <button>Green</button>
                   <button>Blue</button>
                   <button>Yellow</button>
-                  
                 </div>
+
               </div>
             </div>
           </div>

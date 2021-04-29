@@ -180,13 +180,6 @@
 	display: none;
 } */
 
-@media (max-width: 800px) {
-	.modal {
-		width: 100vw;
-		height: 100vh;
-	}
-}
-
 .question {
 	margin-top: 50px;
 }
@@ -213,7 +206,9 @@
 	background-color: #d9a404;
 	color: #000;
 }
+
 /* _________________________________End UPDATE BUTTON ____________________________*/
+
 hr {
 	border: 3px solid #000;
 	width: 100%;
