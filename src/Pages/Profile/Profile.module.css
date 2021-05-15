@@ -90,7 +90,7 @@
 	transform: translateY(54%);
 }
 
-.details div:not(:last-child, :nth-last-child(2)) {
+.details div:not(:last-child) {
 	margin-right: 30px;
 	padding-right: 20px;
 	font-size: 1.1rem;
@@ -108,15 +108,18 @@
 .updateBtn {
 	border: none;
 	outline: none;
-	background-color: #ee4673;
+	background-color: #222;
+	color: #ee4673;
 	border-radius: 15px;
 	padding: 5px 15px;
 	text-transform: uppercase;
 	font-family: Montserrat, "sans-serif";
+	transition: 1s;
 }
 
 .updateBtn:hover {
-	border: 2px solid #000;
+	color: #fff;
+	background-color: #ee4673;
 }
 
 .modal {
@@ -125,7 +128,7 @@
 	left: 50%;
 	transform: translate(-50%, -60%);
 	width: 50vw;
-    min-height: 56vh;
+	min-height: 56vh;
 
 	background-color: rgba(0, 0, 0, 0.8);
 	border-radius: 5px;
@@ -134,7 +137,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: start;
+	justify-content: flex-start;
 }
 
 .closeBtn {
@@ -147,8 +150,9 @@
 	border: none;
 	background: none;
 }
-
-
+.closeBtn:focus {
+	outline: none;
+}
 
 .nextBtn,
 .backBtn {
@@ -182,7 +186,13 @@
 /* .hidden {
 	display: none;
 } */
-
+.modalInput {
+	margin-top: 60px;
+}
+.modalInput input {
+	margin-left: 20px;
+	border: 1px solid #e5b831;
+}
 .question {
 	margin-top: 50px;
 }
