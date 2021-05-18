@@ -139,11 +139,7 @@ function Profile(props) {
       .catch((err) => {
         console.error(err);
       });
-  }, [
-    loading,
-    loading2,
-    props.open2,
-  ]);
+  }, [loading, loading2, props.open2]);
 
   useEffect(() => {
     axios.get("/getUsers?limit=3").then((res) => {
@@ -155,20 +151,8 @@ function Profile(props) {
   }, []);
 
   const updateHandler = async (info) => {
-    //     badHabbit: "I have a sweet tooth  "
-    // energyLevel: "I need a nap after meals"
-    // goalWeight: "80"
-    // height: "30"
-    // lastIdealWeight: "1-2 years ago"
-    // sleepEveryNight: "6-7 hours"
-    // walkDaily: "1-2 hours "
-    // waterDaily: "More than 6 glasses"
-    // weight: "40"
-    // workout: "1-2 workouts a week "
-
-    ////axios update profile
-    const res = await axios.post("/updateInfo", info);
-    console.log(res);
+    await axios.post("/updateInfo", info);
+    // console.log(res);
     setLoading2(true);
     setLoading2(false);
   };

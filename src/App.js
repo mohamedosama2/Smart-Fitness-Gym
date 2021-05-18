@@ -34,20 +34,23 @@ function App() {
   let Auth = useContext(AuthCont);
 
   useEffect(() => {
-    async function getProfile() {
-      const token = localStorage.getItem("token");
-      if (token) {
-        const res = await Axios.get("profile");
-        if (res.status === 200 || 201) {
-          Auth.isAuth = true;
-          Auth.auth = res.data;
-          setMe(res.data);
-          setIsAuth(true);
+    console.log(Auth.auth)
+    if (!Auth.auth) {
+      async function getProfile() {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const res = await Axios.get("profile");
+          if (res.status === 200 || 201) {
+            Auth.isAuth = true;
+            Auth.auth = res.data;
+            setMe(res.data);
+            setIsAuth(true);
+          }
         }
       }
+      getProfile();
     }
-    getProfile();
-  }, []);
+  }, [Auth.auth]);
 
   const openHandler = useCallback(() => {
     setOpen(true);

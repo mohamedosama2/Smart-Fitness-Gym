@@ -15,6 +15,7 @@ export const Nav = (props) => {
   const nav = useRef();
 
   const auth = useContext(AuthContext);
+  const alerts=useContext(AlertContext)
 
   const [notifications, setNotifications] = useState(0);
 
@@ -22,7 +23,6 @@ export const Nav = (props) => {
 
   const [loading, setLoading] = useState(false);
 
-  const alerts=useContext(AlertContext)
 
   useEffect(() => {
     if (auth.auth.role === "gym")
@@ -31,7 +31,6 @@ export const Nav = (props) => {
       });
   }, [auth.auth.role, loading,alerts]);
   useEffect(() => {
-    console.log("here")
     if (auth.auth.role === "gym")
       Axios.get("fetch-requests").then((res) => {
         setRequests(res.data.docs);
