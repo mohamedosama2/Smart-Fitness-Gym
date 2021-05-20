@@ -2,7 +2,6 @@ import React from "react";
 import chatCss from "../../assets/css/chat.module.css";
 import moment from 'moment'
 function Contact(props) {
-  // console.log("c",props.info._id)
   return (
     <>
       <div class={`${chatCss.friend} ${props.contact===props.info._id?chatCss.active:""}`} onClick={()=>props.clickedHandler(props.info._id,props.info)}>

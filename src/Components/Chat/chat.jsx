@@ -95,9 +95,9 @@ function Chat() {
   return (
     <>
       {/* Slider */}
-      <div class="container" style={{ paddingTop: "90px" }}>
-        <div class={chatCss.slider_container}>
-          <div class={chatCss.slider} id="slider">
+      <div className="container" style={{ paddingTop: "90px" }}>
+        <div className={chatCss.slider_container}>
+          <div className={chatCss.slider} id="slider">
             {contacts1.map((c) => (
               <span
                 key={c.id}
@@ -121,22 +121,22 @@ function Chat() {
         </div>
 
         <a
-          class={`carousel-control-prev ${chatCss.carousel_control_prev}`}
+          className={`carousel-control-prev ${chatCss.carousel_control_prev}`}
           id="prev"
         >
-          <span class="carousel-control-prev-icon"></span>
+          <span className="carousel-control-prev-icon"></span>
         </a>
         <a
-          class={`carousel-control-next ${chatCss.carousel_control_next}`}
+          className={`carousel-control-next ${chatCss.carousel_control_next}`}
           id="next"
         >
-          <span class="carousel-control-next-icon"></span>
+          <span className="carousel-control-next-icon"></span>
         </a>
       </div>
       {/* End Slider */}
 
-      <div class={`container ${chatCss.content}`}>
-        <div class="row no-gutters">
+      <div className={`container ${chatCss.content}`}>
+        <div className="row no-gutters">
           <Contacts
             socket={socket}
             currentHandler={currentHandler}
