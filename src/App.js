@@ -7,7 +7,7 @@ import About from "./Components/about";
 import Sidebar from "./UI/Sidebar/Sidebar";
 import Backdrop from "./UI/Backdrop/Backdrop";
 import PoPup from "./UI/PoPup/PoPup";
-import Profile from "./Pages/Profile/Profile";
+import Profile from "./Components/Profile/Profile/Profile";
 import Online from "./Components/online";
 import VideoCategory from "./Components/videoCategories";
 import Videos from "./Components/videos";
@@ -19,8 +19,13 @@ import Table from "./Components/Table";
 import Approved from "./Components/approvedTrainees";
 import AdminHome from "./Components/Admin/Home";
 import AddTrainer from "./Components/Admin/AddTrainer";
+import Chat from "./Components/Chat/chat";
+import { useDispatch } from "react-redux";
+import { fetchContacts } from "./store";
+import io from "socket.io-client";
 
 function App() {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [u, setU] = useState(false);
   const [m, setM] = useState(false);
@@ -34,23 +39,20 @@ function App() {
   let Auth = useContext(AuthCont);
 
   useEffect(() => {
-    console.log(Auth.auth)
-    if (!Auth.auth) {
-      async function getProfile() {
-        const token = localStorage.getItem("token");
-        if (token) {
-          const res = await Axios.get("profile");
-          if (res.status === 200 || 201) {
-            Auth.isAuth = true;
-            Auth.auth = res.data;
-            setMe(res.data);
-            setIsAuth(true);
-          }
+    async function getProfile() {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const res = await Axios.get("profile");
+        if (res.status === 200 || 201) {
+          Auth.isAuth = true;
+          Auth.auth = res.data;
+          setMe(res.data);
+          setIsAuth(true);
         }
       }
-      getProfile();
     }
-  }, [Auth.auth]);
+    getProfile();
+  }, []);
 
   const openHandler = useCallback(() => {
     setOpen(true);
@@ -82,6 +84,24 @@ function App() {
   const closeHandler2 = useCallback(() => {
     setOpen2(false);
   }, []);
+
+  const [socket, setSocket] = useState();
+
+  useEffect(() => {
+    const s = io("https://smartfitnessgym.herokuapp.com/chat");
+    s.on("connect", () => {
+      // console.log("connected");
+      s.emit("authenticate", { token: localStorage.getItem("token") });
+    });
+    s.on("new message", () => {
+      dispatch(fetchContacts(true));
+    });
+    setSocket(s);
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [localStorage.getItem("userId")]);
 
   // console.log(me.role)
   return (
@@ -145,6 +165,7 @@ function App() {
             />
 
             <Route exact path="/searchTrainee" component={SearchTrainee} />
+            <Route exact path="/chat" component={Chat} />
             <Route exact path="/searchTrainer" component={SearchTrainer} />
             <Route exact path="/online/:id" component={Online} />
             <Route exact path="/videoCategories" component={VideoCategory} />
@@ -174,6 +195,7 @@ function App() {
             />
 
             <Route exact path="/searchTrainee" component={SearchTrainee} />
+            <Route exact path="/chat" component={Chat} />
             <Route exact path="/approvedTrainees" component={Approved} />
             <Route exact path="/searchTrainer" component={SearchTrainer} />
             <Route exact path="/online/:id" component={Online} />

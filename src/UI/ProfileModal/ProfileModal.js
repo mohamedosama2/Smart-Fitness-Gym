@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import s from "../../Pages/Profile/Profile.module.css";
+import s from "../../Components/Profile/Profile/Profile.module.css";
 
 function ProfileModal(props) {
   const modal = useRef();
@@ -280,28 +280,30 @@ function ProfileModal(props) {
           default:
             return (
               <div>
-                <div style={{ marginTop: "30px" }}>
+                <div className={s.modalInput}>
                   {" "}
                   Your height{" "}
                   <input
-                    style={{ margin: 0, marginTop: "10px" }}
                     type="number"
+                    placeholder="Height in Kg"
                     onChange={(e) => setHeight(e.target.value)}
                   />
                 </div>
-                <div style={{ all: "inherit" }}>
+                <div className={s.modalInput}>
                   {" "}
                   Your weight{" "}
                   <input
                     type="number"
+                    placeholder="Weight in Kg"
                     onChange={(e) => setWeight(e.target.value)}
                   />
                 </div>
-                <div style={{ all: "inherit" }}>
+                <div className={s.modalInput}>
                   {" "}
                   Goal weight{" "}
                   <input
                     type="number"
+                    placeholder="Goal weight in Kg"
                     onChange={(e) => setGoalWeight(e.target.value)}
                   />
                 </div>
