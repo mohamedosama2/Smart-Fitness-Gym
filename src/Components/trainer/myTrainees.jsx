@@ -68,7 +68,7 @@ function MyTrainees(props) {
 		});
 
 		downBtn.addEventListener('click', () => {
-			if (leftCounter == leftSliderImgs.length - 5) return;
+			if (leftCounter == leftSliderImgs.length - 4) return;
 			leftSlider.style.transition = 'transform 0.4s ease-in-out';
 			leftCounter++;
 			leftSlider.style.transform = 'translateY(' + -leftSize * leftCounter + 'px)';
