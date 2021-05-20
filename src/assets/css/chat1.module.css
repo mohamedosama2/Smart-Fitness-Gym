@@ -17,8 +17,8 @@
 }
 
 .left_slider {
-	height: 70vh;
-	margin-top: 140px;
+	height: 60vh;
+	margin-top: 200px;
 	overflow: hidden;
 }
 
@@ -53,11 +53,13 @@
 }
 
 .arrow_up {
-	top: 100px;
+	top: 170px;
 }
+/* ____________________________________________ */
 
 .comparison {
-	margin: 120px auto;
+	padding-top: 120px;
+	margin: 0px 120px;
 }
 
 .profile {
