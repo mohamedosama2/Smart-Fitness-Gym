@@ -5,7 +5,7 @@ import line from "../../images/svg/line.svg";
 import axios from "axios";
 import moment from "moment";
 import Alert from "@material-ui/lab/Alert";
-import Spinner from "../../UI/Spinner/Spinner";
+// import Spinner from "../../UI/Spinner/Spinner";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import LineChart from "../../Components/chartjs";
@@ -149,7 +149,7 @@ function Profile(props) {
       setTrainers(res.data.docs);
     });
   }, []);
-
+  console.log("asdasd");
   const updateHandler = async (info) => {
     await axios.post("/updateInfo", info);
     // console.log(res);
@@ -378,13 +378,17 @@ function Profile(props) {
                 <span>Diet Plan: </span>Intermittent Fasting
               </div>
 
-              <div>
-                {" "}
-                <button className={s.updateBtn} onClick={() => openModal()}>
+              {props.match.params.id ? (
+                ""
+              ) : (
+                <div>
                   {" "}
-                  Update{" "}
-                </button>{" "}
-              </div>
+                  <button className={s.updateBtn} onClick={() => openModal()}>
+                    {" "}
+                    Update{" "}
+                  </button>{" "}
+                </div>
+              )}
 
               {open && (
                 <ProfileModal

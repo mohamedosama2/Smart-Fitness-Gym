@@ -5,6 +5,7 @@ import style from "../assets/css/navbar.module.css";
 import TocIcon from "@material-ui/icons/Toc";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
+import ChatIcon from '@material-ui/icons/Chat';
 import FaceIcon from "@material-ui/icons/Face";
 import Axios from "axios";
 import AuthContext from "../context/auth-context";
@@ -171,6 +172,10 @@ export const Nav = (props) => {
                   {alers}
                 </div>
 
+                <Link to="/chat" className={style.icons}>
+                  <ChatIcon />
+                </Link>
+
                 <Link
                   className={style.icons}
                   onClick={() => {
@@ -185,6 +190,10 @@ export const Nav = (props) => {
           ) : localStorage.getItem("token") && auth.auth.role === "trainee" ? (
             <div className={style.register}>
               <span className={style.signup}>
+
+                <Link to="/chat" className={style.icons}>
+                  <ChatIcon />
+                </Link>
                 <Link to="/profile" className={style.icons}>
                   <FaceIcon />
                 </Link>

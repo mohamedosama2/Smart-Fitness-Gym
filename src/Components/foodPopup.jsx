@@ -84,8 +84,8 @@ function FoodPopup(props) {
 	};
 
 	const updateHandler = () => {
-		// console.log(allCalories <= calPg);
-		if (allCalories <= calPg) {
+		console.log(alCalories , calPg);
+		if (alCalories >= calPg) {
 			setLoading(true);
 			let arr = [];
 			myIngredients.map((i) => {
@@ -163,8 +163,8 @@ function FoodPopup(props) {
 			</div>
 			<div className={s.myFood}>
 				<div>
-					{props.food.f.map((f) => {
-						return <button>{f.food.food}</button>;
+					{props.food.f.map((f,i) => {
+						return <button key={i}>{f.food.food}</button>;
 					})}
 				</div>
 				<div className={s.cal_num}>{alCalories}</div>
@@ -175,7 +175,7 @@ function FoodPopup(props) {
 				<div className={s.newFood__name}> New Food </div>
 				<div style={{ display: 'flex' }}>
 					{' '}
-					{myIngredients.map((m) => (
+					{myIngredients.map((m,i) => (
 						<div
 							style={{
 								display: 'flex',
@@ -183,6 +183,7 @@ function FoodPopup(props) {
 								alignItems: 'center',
 								justifyContent: 'center'
 							}}
+							key={i}
 						>
 							<button
 								onClick={() => removeIngredient(m)}
