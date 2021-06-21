@@ -110,7 +110,6 @@ function Messaging(props) {
                 }`
               )
               .then((res) => {
-                console.log(res.data.docs);
                 props.currentHandler(res.data.docs);
                 dispatcher(
                   updateCoversation(

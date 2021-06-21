@@ -82,7 +82,6 @@ function Profile(props) {
           : `fetch-profile`
       )
       .then((res) => {
-        // console.log(res);
         setProfile(res.data.user);
         setSystem(res.data.system);
         let newWeeks = generateRanges(
@@ -139,11 +138,7 @@ function Profile(props) {
       .catch((err) => {
         console.error(err);
       });
-  }, [
-    loading,
-    loading2,
-    props.open2,
-  ]);
+  }, [loading, loading2, props.open2]);
 
   useEffect(() => {
     axios.get("/getUsers?limit=3").then((res) => {
@@ -174,15 +169,15 @@ function Profile(props) {
   };
 
   const leftToggle = () => {
-    if (system) {
+    // if (system) {
       var indexOfStevie = dates.findIndex((i) => i.date === current);
       if (indexOfStevie !== 0) {
         setCurrent(dates[indexOfStevie - 1].date);
         axios
           .get(
             props.match.params.id
-              ? `getSystemByDate?date=${current}&&id=${props.match.params.id}`
-              : `getSystemByDate?date=${current}`
+              ? `getSystemByDate?date=${dates[indexOfStevie - 1].date}&&id=${props.match.params.id}`
+              : `getSystemByDate?date=${dates[indexOfStevie - 1].date}`
           )
           .then((res) => {
             setSystem(res.data);
@@ -191,28 +186,32 @@ function Profile(props) {
             console.error(err);
           });
       }
-    }
+    // }
   };
 
   const rightToggle = () => {
-    if (system) {
+    // console.log(system)
+    // if (system) {
+      // console.log(current)
       var indexOfStevie = dates.findIndex((i) => i.date === current);
       if (indexOfStevie !== dates.length - 1) {
         setCurrent(dates[indexOfStevie + 1].date);
+        // console.log(dates[indexOfStevie + 1].date)
         axios
           .get(
             props.match.params.id
-              ? `getSystemByDate?date=${current}&&id=${props.match.params.id}`
-              : `getSystemByDate?date=${current}`
+              ? `getSystemByDate?date=${dates[indexOfStevie + 1].date}&&id=${props.match.params.id}`
+              : `getSystemByDate?date=${dates[indexOfStevie + 1].date}`
           )
           .then((res) => {
+            // console.log(res.data)
             setSystem(res.data);
           })
           .catch((err) => {
             console.error(err);
           });
       }
-    }
+    // }
   };
 
   const leftToggleChart = () => {
@@ -394,13 +393,17 @@ function Profile(props) {
                 <span>Diet Plan: </span>Intermittent Fasting
               </div>
 
-              <div>
-                {" "}
-                <button className={s.updateBtn} onClick={() => openModal()}>
+              {props.match.params.id ? (
+                ""
+              ) : (
+                <div>
                   {" "}
-                  Update{" "}
-                </button>{" "}
-              </div>
+                  <button className={s.updateBtn} onClick={() => openModal()}>
+                    {" "}
+                    Update{" "}
+                  </button>{" "}
+                </div>
+              )}
 
               {open && (
                 <ProfileModal

@@ -105,6 +105,10 @@
 }
 .slide_three {
 	transform: translateX(750px);
+	-webkit-transform: translateX(750px);
+	-moz-transform: translateX(750px);
+	-ms-transform: translateX(750px);
+	-o-transform: translateX(750px);
 }
 .slider_card {
 	border: 2px solid #d9a404;
