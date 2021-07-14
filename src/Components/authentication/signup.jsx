@@ -129,6 +129,15 @@ export class Signup extends Component {
 		}
 	};
 
+	nextHandler = () => {
+		const modal = document.querySelector('#modal');
+		modal.style.display = "block";
+	}
+	closeModal = () => {
+		const modal = document.querySelector('#modal');
+		modal.style.display = "none";
+	}
+
 	render() {
 		let code = (
 			<React.Fragment>
@@ -199,7 +208,32 @@ export class Signup extends Component {
 								/>
 							</div>
 						</div>
-						<span className={style.btn__next}>Next</span>
+
+						<span className={style.btn__next} onClick={this.nextHandler}>Next</span>
+
+						<div className={style.modal} id="modal">
+							<button className={style.close_modal} onClick={this.closeModal}>&times;</button>
+							<h1 className={style.question}>
+								When was the last time you were at your ideal weight?
+							</h1>
+                <div className={style.answer}>
+                  <button >
+                    Less than a year ago
+                  </button>
+                  <button >
+                    1-2 years ago
+                  </button>
+                  <button>
+                    more than 3 years ago
+                  </button>
+                  <button>never</button>
+							</div>
+							<button className={style.backBtn}>Back</button>
+							<button className={style.nextBtn}>Next</button>
+						</div>
+
+						
+
 						<button type="submit" className={style.btn}>
 							sign up
 						</button>
