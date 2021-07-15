@@ -1,28 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import chatCss from "../../assets/css/chat.module.css";
 // import photo from "../../images/friend_1.png";
 import Contacts from "./contacts";
 import Messaging from "./messaging";
 import io from "socket.io-client";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { clearContacts, addCoversation,setCurrentConversation1 } from "../../store";
 
 function Chat() {
-  const [contacts1, setContacts] = useState([]);
-  const [currentConversation, setCurrentConversation] = useState([]);
+  const [contacts, setContacts] = useState([]);
+  const [currentConversationMessages, setCurrentConversationMessages] =
+    useState([]);
   const [currentContact, setCurrentContact] = useState();
-  const contacts = useSelector((state) => state.reducer.contacts);
-  const conversations = useSelector((state) => state.reducer.conversations);
-  const dispatch = useDispatch();
   const [socket, setSocket] = useState();
-  const [contactForMessage, setMyContactForMessage] = useState();
+  const [conversations, setConversations] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
+
+  const fetchAll = useCallback(async () => {
+    const contacts = await axios.get("/conversations");
+    setContacts(contacts);
+    const fullConversations = contacts.data.docs.map((c) =>
+      axios.get(`/conversations/${c.id}/messages`)
+    );
+    const recommendedContacts = axios.get("/fetch-recommendations");
+    const res = await Promise.all([...fullConversations, recommendedContacts]);
+    console.log(res)
+    setRecommendations(res[res.length - 1]);
+    setConversations(res.slice(0, res.length - 1));
+  }, []);
+
+  useEffect(() => {
+    fetchAll();
+  }, []);
+
+  console.log(conversations);
+  console.log(recommendations);
+  console.log(contacts);
 
   useEffect(() => {
     const s = io("https://smartfitnessgym.herokuapp.com/chat");
     s.on("connect", () => {
-      // console.log("connected");
       s.emit("authenticate", { token: localStorage.getItem("token") });
     });
     setSocket(s);
@@ -44,7 +60,7 @@ function Chat() {
     }
     if (nextBtn) {
       nextBtn.addEventListener("click", () => {
-        if (counter == sliderImages.length - contacts1.length) return;
+        if (counter == sliderImages.length - contacts.length) return;
         slider.style.transition = "transform 0.4s ease-in-out";
         counter++;
         slider.style.transform = "translateX(" + -size * counter + "px)";
@@ -58,39 +74,20 @@ function Chat() {
         slider.style.transform = "translateX(" + -size * counter + "px)";
       });
     }
-  }, [contacts1.length]);
+  }, [contacts.length]);
 
   const currentHandler = (con) => {
-    setCurrentConversation(con);
+    console.log(con);
+    setCurrentContact(con);
   };
 
-  const addMessage = (content) => {
+  const addMessage = (content, conversation) => {
     socket.emit("message", {
-      to: currentContact,
+      to: currentContact, //id user
+      conversation, //id conversation
       content,
     });
   };
-
-  const current = (id) => {
-    setCurrentContact(id);
-  };
-
-  useEffect(() => {
-    if (contacts.docs) {
-      let ids = contacts.docs.map((cs) => {
-        let a = cs._id;
-        return a[0] !== localStorage.getItem("userId") ? a[1] : a[0];
-      });
-      axios.post("/Contacts", { ids }).then((result) => {
-        setContacts(result.data);
-      });
-    }
-  }, [contacts]);
-  
-  const  setMyContactToMessage=(id)=>{
-    setMyContactForMessage(id)
-  }
-
 
   return (
     <>
@@ -98,25 +95,22 @@ function Chat() {
       <div className="container" style={{ paddingTop: "90px" }}>
         <div className={chatCss.slider_container}>
           <div className={chatCss.slider} id="slider">
-            {contacts1.map((c) => (
-              <span
-                key={c.id}
-                onClick={() => {
-                  if (!conversations[c.id]) {
-                    dispatch(clearContacts());
-                    dispatch(addCoversation(c.id, []));
-                    dispatch(setCurrentConversation1(c.id))
-                  }
-                }}
-              >
-                {" "}
-                <img
-                  src={c.photo}
-                  alt={c.id}
-                  onClick={() => dispatch(clearContacts())}
-                />
-              </span>
-            ))}
+            {recommendations.data
+              ? recommendations.data.docs
+                ? recommendations.data.docs.map((c) => (
+                    <span
+                      key={c.id}
+                      onClick={async () => {
+                        await axios.post("/create-conversation", { to: c.id });
+                        fetchAll();
+                      }}
+                    >
+                      {" "}
+                      <img src={c.photo} alt={c.id} />
+                    </span>
+                  ))
+                : ""
+              : ""}
           </div>
         </div>
 
@@ -137,24 +131,19 @@ function Chat() {
 
       <div className={`container ${chatCss.content}`}>
         <div className="row no-gutters">
-          <Contacts
+          <Contacts socket={socket} currentHandler={currentHandler} currentContact={currentContact} contacts={contacts} />
+          {/* <Messaging
             socket={socket}
-            currentHandler={currentHandler}
-            current={current}
-            setMyContactToMessage={setMyContactToMessage}
-          />
-          <Messaging
-            socket={socket}
-            currentConversation={currentConversation}
-            addMessage={addMessage}
             currentContact={currentContact}
-            currentHandler={currentHandler}
+            addMessage={addMessage}
+            currentConversation={currentConversation}
             contactForMessage={contactForMessage}
-          />
+            currentHandler={currentHandler}
+          /> */}
         </div>
       </div>
     </>
   );
 }
 
-export default Chat;
+export default React.memo(Chat);
