@@ -23,6 +23,7 @@ import Chat from "./Components/Chat/chat";
 import { useDispatch } from "react-redux";
 import { fetchContacts } from "./store";
 import io from "socket.io-client";
+import Qr from './Components/QRCode/qrCode'
 // import myTrainees from "./Components/trainer/myTrainees";
 
 function App() {
@@ -166,7 +167,8 @@ function App() {
             <Route exact path="/Videos/:id" component={Videos} />
           </Switch>
         ) : isAuth && me.role === "gym" ? (
-          <Switch>
+            <Switch>
+              <Route exact path="/Qr" component={Qr} />
             <Route
               exact
               path="/"
