@@ -129,9 +129,9 @@ export class Signup extends Component {
 		}
 	};
 
-	nextHandler = () => {
+	openModal = () => {
 		const modal = document.querySelector('#modal');
-		modal.style.display = "block";
+		modal.style.display = "flex";
 	}
 	closeModal = () => {
 		const modal = document.querySelector('#modal');
@@ -207,29 +207,53 @@ export class Signup extends Component {
 									class={style.inp}
 								/>
 							</div>
+
+							<div className={style.data_entry}>
+								<span onClick={this.openModal}>Please Fill This Data </span>
+							</div>
+
 						</div>
-
-						<span className={style.btn__next} onClick={this.nextHandler}>Next</span>
-
+						
+ 
 						<div className={style.modal} id="modal">
 							<button className={style.close_modal} onClick={this.closeModal}>&times;</button>
-							<h1 className={style.question}>
-								When was the last time you were at your ideal weight?
-							</h1>
-                <div className={style.answer}>
-                  <button >
-                    Less than a year ago
-                  </button>
-                  <button >
-                    1-2 years ago
-                  </button>
-                  <button>
-                    more than 3 years ago
-                  </button>
-                  <button>never</button>
+
+							<h3 className= {style.modal_title}>This data helps us recommend the best things for you ...</h3>
+
+							<div className={style.input}>
+								<input type="number" placeholder="Total Body Water" className={style.inp} />
 							</div>
-							<button className={style.backBtn}>Back</button>
-							<button className={style.nextBtn}>Next</button>
+
+							<div className={style.input}>
+								<input type="number" placeholder="Your Weight (kg)" className={style.inp} />
+							</div>
+
+							<div className={style.input}>
+								<input type="number" placeholder="How many kg do you want to lose?" className={style.inp} />
+							</div>
+
+							<div className={style.input}>
+								<input type="number" placeholder="Expected duration of weight loss (days)" className={style.inp} />
+							</div>
+							<div className={style.gender}>
+								<span>Gender</span>
+								<input type="radio" name="gender"/> Male
+								<input type="radio" name="gender"/> Female
+							</div>
+							<div className={style.input}>
+								<input type="number" placeholder="Body Fat Mass" className={style.inp} />
+							</div>
+
+							<div className={style.input}>
+								<input type="number" placeholder="Dry Lean Mass" className={style.inp} />
+							</div>
+
+							<div className={style.input}>
+								<input type="number" placeholder="Your Age" className={style.inp} />
+							</div>
+
+							<button className={style.okBtn}>OK</button>
+
 						</div>
 
 						

@@ -92,18 +92,11 @@ function App() {
   useEffect(() => {
     const s = io("https://smartfitnessgym.herokuapp.com/chat");
     s.on("connect", () => {
-      // console.log("connected");
       s.emit("authenticate", { token: localStorage.getItem("token") });
     });
-    s.on("new message", () => {
-      dispatch(fetchContacts(true));
-    });
+
     setSocket(s);
   }, []);
-
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [localStorage.getItem("userId")]);
 
   // console.log(me.role)
   return (
@@ -237,6 +230,7 @@ function App() {
             />
             <Route exact path="/contact" component={Contact} />
             <Route exact path="/about" component={About} />
+            <Route exact path="/AddTrainer" component={AddTrainer} />
           </Switch>
         )}
       </BrowserRouter>

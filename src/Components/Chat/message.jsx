@@ -2,7 +2,6 @@ import React from "react";
 import chatCss from "../../assets/css/chat.module.css";
 
 function Message(props) {
-  // console.log(props.id)
   return (
     <div
       className={`
@@ -22,4 +21,4 @@ ${chatCss.chat__bubble} ${
   );
 }
 
-export default Message;
+export default React.memo(Message);
