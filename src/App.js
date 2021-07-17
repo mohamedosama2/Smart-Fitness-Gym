@@ -22,7 +22,7 @@ import AddTrainer from "./Components/Admin/AddTrainer";
 import Chat from "./Components/Chat/chat";
 import { useDispatch } from "react-redux";
 import { fetchContacts } from "./store";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 import Qr from './Components/QRCode/qrCode'
 // import myTrainees from "./Components/trainer/myTrainees";
 
@@ -89,14 +89,14 @@ function App() {
 
   const [socket, setSocket] = useState();
 
-  useEffect(() => {
-    const s = io("https://smartfitnessgym.herokuapp.com/chat");
-    s.on("connect", () => {
-      s.emit("authenticate", { token: localStorage.getItem("token") });
-    });
+  // useEffect(() => {
+  //   const s = io("https://smartfitnessgym.herokuapp.com/chat");
+  //   s.on("connect", () => {
+  //     s.emit("authenticate", { token: localStorage.getItem("token") });
+  //   });
 
-    setSocket(s);
-  }, []);
+  //   setSocket(s);
+  // }, []);
 
   // console.log(me.role)
   return (
@@ -160,7 +160,7 @@ function App() {
             />
 
             <Route exact path="/searchTrainee" component={SearchTrainee} />
-            <Route exact path="/chat" component={Chat} />
+            {/* <Route exact path="/chat" component={Chat} /> */}
             <Route exact path="/searchTrainer" component={SearchTrainer} />
             <Route exact path="/online/:id" component={Online} />
             <Route exact path="/videoCategories" component={VideoCategory} />
