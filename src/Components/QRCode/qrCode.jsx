@@ -86,7 +86,6 @@ const QRcode = () => {
       setImageSrc(response);
       console.log(imageSrc)
 
-      //Usage example:
       var file = dataURLtoFile(imageSrc,'hello.png');
       console.log(file);
 
@@ -142,7 +141,12 @@ const QRcode = () => {
             </button>
             
             <div className={style.qr__videoWrapper}>
-              <span className={style.qr__cancelBtn} onClick={() => cancelBtn()}>&times;</span>
+              <span
+                className={style.qr__cancelBtn}
+                onClick={() => cancelBtn()}
+              >
+                &times;
+              </span>
               
               <video id="video" src="" controls></video>
             </div>
@@ -154,7 +158,12 @@ const QRcode = () => {
             </button>
             
             <div className={style.progress}>
-              <ProgressBar width="50%" bgColor="#D9A404" labelColor="#000" completed={progress} />
+              <ProgressBar
+                width="50%"
+                bgColor="#D9A404"
+                labelColor="#000"
+                completed={progress}
+              />
             </div>
             
           </div>

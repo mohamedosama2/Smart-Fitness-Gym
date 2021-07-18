@@ -5,7 +5,7 @@
 }
 body {
 	background: linear-gradient(#242323 25%, #ffdf7e 70%) no-repeat;
-	min-height: 100vh;
+	min-height: 110vh;
 }
 
 .qrCode{
@@ -118,9 +118,11 @@ video{
   z-index: 5;
   display: none;
 }
+
 .qr__cancelBtn:hover{
   color: red;
 }
+
 .qr__videoWrapper:hover .qr__cancelBtn{
   display: inline;
 }
@@ -148,10 +150,6 @@ video{
   font-weight: bold;
 }
 
-
-
-
-
 .qr__print{
   background-color: #000;
   color: #D9A404;
@@ -168,9 +166,11 @@ video{
   cursor: pointer;
   margin-inline: 10px;
 }
+
 .qr__print:focus{
   outline: none;
 }
+
 .qr__print:hover{
   background-color: #D9A404;
   color: #000;
