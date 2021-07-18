@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import style from './qrCode.module.css';
 import QRCode from 'qrcode';
 import axios from 'axios';
-import { ContactSupportOutlined } from '@material-ui/icons';
+import ProgressBar from "@ramonak/react-progress-bar";
+
 
 const QRcode = () => {
 
@@ -11,34 +12,7 @@ const QRcode = () => {
   const [imageId, setImageId] = useState('');
   const [videoSrc, setVideoSrc] = useState('');
   const [QrURL, setQrURL] = useState('');
-
-
-  const generateQRCode = async ()=> {
-    try {
-      
-      const response = await QRCode.toDataURL(QrURL);
-      const img = document.getElementById('img');
-
-      img.src = response;
-    
-
-      console.log(img.src)
-      console.log(imageId)
-
-      const _form = new FormData()
-      _form.append('id',imageId)
-      _form.append('image',imageSrc)
-      axios.post(`/add-video-qr`, _form)
-        .then((res) => {
-          console.log(res);
-        }).catch((err) => {
-          console.error(err);
-        })
-
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  let [progress, setProgress] = useState('');
 
   const defaultBtnActive = () => {
     const defaultBtn = document.getElementById("defaultBtn");
@@ -59,11 +33,25 @@ const QRcode = () => {
       }
       reader.readAsDataURL(file);   
     }
+  }
+
+  const cancelBtn = () => {
+    const video = document.getElementById("video");
+    video.src = "";
+  }
+
+  const uploadVideo = () => {
 
     const form = new FormData()
     form.append('title',text)
-    form.append('video',videoSrc)
-    axios.post(`/add-video-qr`, form)
+    form.append('video', videoSrc)
+    
+    axios.post(`/add-video-qr`, form, {
+      onUploadProgress: progressEvent => {
+        // console.log(`upload progress: ${Math.round(progressEvent.loaded / progressEvent.total * 100)}`)
+        setProgress(Math.round(progressEvent.loaded / progressEvent.total * 100))
+      }
+    })
       .then((res) => {
         console.log(res.data.video);
         setQrURL(res.data.video)
@@ -74,11 +62,27 @@ const QRcode = () => {
     
   }
 
-  const cancelBtn = () => {
-    const video = document.getElementById("video");
-    video.src = "";
-  }
+  const generateQRCode = async ()=> {
+    try {
+      
+      const response = await QRCode.toDataURL(QrURL);
+      setImageSrc(response);
 
+      console.log(imageSrc)
+      const _form = new FormData()
+      _form.append('id',imageId)
+      _form.append('image',imageSrc)
+      axios.post(`/add-video-qr`, _form)
+        .then((res) => {
+          console.log(res);
+        }).catch((err) => {
+          console.error(err);
+        })
+
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   return (
     <React.Fragment>
@@ -86,24 +90,69 @@ const QRcode = () => {
         <div className={style.qrCode}>
           <div className={style.qr__left}>
 
-          <h2 className={style.qr__title}>Create QR-Code</h2>
-            <input type="text" placeholder="video name" className={style.qr__inputName} onChange={(e)=> setText(e.target.value) }/>
-            <input type="text" placeholder="description" className={style.qr__inputDescription} />
-            <input type="file" id="defaultBtn" onChange={(e) => setVideoSrc(e.target.files[0])} onClick={()=>getVideoSrc()} hidden/>
-            <button id="customBtn" className={style.qr__btn} onClick={()=>defaultBtnActive()}>Add Video</button>
+            <h2 className={style.qr__title}>Create QR-Code</h2>
+            
+            <input
+              type="text"
+              placeholder="video name"
+              className={style.qr__inputName}
+              onChange={(e) => setText(e.target.value)}
+            />
+
+            <input
+              type="text"
+              placeholder="description"
+              className={style.qr__inputDescription}
+            />
+
+            <input
+              type="file"
+              id="defaultBtn"
+              onClick={() => getVideoSrc()}
+              onChange={(e) => setVideoSrc(e.target.files[0])}
+              hidden
+            />
+            
+            <button
+              id="customBtn"
+              className={style.qr__btn}
+              onClick={() => defaultBtnActive()}
+            > Add Video
+            </button>
             
             <div className={style.qr__videoWrapper}>
-                <span className={style.qr__cancelBtn} onClick={()=>cancelBtn()}>&times;</span>
-                <video id="video" src="" controls></video>
+              <span className={style.qr__cancelBtn} onClick={() => cancelBtn()}>&times;</span>
+              
+              <video id="video" src="" controls></video>
             </div>
 
+            <button
+              className={style.uploadBtn}
+              onClick={() => uploadVideo()}
+            > Upload Video
+            </button>
+            
+            <div className={style.progress}>
+              <ProgressBar width="50%" bgColor="#D9A404" labelColor="#000" completed={progress} />
+            </div>
+            
           </div>
 
           <div className={style.qr__right}>
             <div className={style.qr__imageWrapper}>
-              <img id="img" src="" alt="QR-img" />
+              {imageSrc ?
+                (<img id="img" src={imageSrc} alt="QR-img" />) :
+                (<p className={style.qr__noImg}> NO QR Yet!</p>)
+              }
             </div>
-            <button className={style.qr__print} onClick={() => generateQRCode()} onChange={(e)=>setImageSrc(e.target.files[0])}>Create</button>
+
+            <button
+              className={style.qr__print}
+              onClick={() => generateQRCode()}
+            >
+              Create
+            </button>
+
             <button className={style.qr__print} onClick={() => window.print()}>Print</button>
           </div>
           
