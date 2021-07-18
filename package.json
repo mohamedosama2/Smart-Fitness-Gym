@@ -2,13 +2,41 @@
   "name": "g-project",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
   "dependencies": {
     "@hookform/error-message": "^2.0.0",
     "@hookform/resolvers": "^2.4.0",
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
+<<<<<<< HEAD
     "@react-leaflet/core": ">=1.0.0 <1.1.0 || ^1.1.1",
+=======
+    "@ramonak/react-progress-bar": "^3.1.0",
+>>>>>>> 0d2436b7a6f05b9202f4b48d922c9fa0b5689e7f
     "@reactchartjs/react-chart.js": "^1.0.0-rc.3",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.4",
@@ -46,6 +74,7 @@
     "socketio-jwt": "^4.6.2",
     "web-vitals": "^0.2.4",
     "yup": "^0.32.9"
+<<<<<<< HEAD
   },
   "scripts": {
     "start": "react-scripts start",
@@ -64,4 +93,7 @@
     "not dead",
     "not op_mini all"
   ]
+=======
+  }
+>>>>>>> 0d2436b7a6f05b9202f4b48d922c9fa0b5689e7f
 }

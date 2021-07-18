@@ -87,14 +87,14 @@ function App() {
 
   const [socket, setSocket] = useState();
 
-  useEffect(() => {
-    const s = io("https://smartfitnessgym.herokuapp.com/chat");
-    s.on("connect", () => {
-      s.emit("authenticate", { token: localStorage.getItem("token") });
-    });
+  // useEffect(() => {
+  //   const s = io("https://smartfitnessgym.herokuapp.com/chat");
+  //   s.on("connect", () => {
+  //     s.emit("authenticate", { token: localStorage.getItem("token") });
+  //   });
 
-    setSocket(s);
-  }, []);
+  //   setSocket(s);
+  // }, []);
 
   // console.log(me.role)
   return (
@@ -160,7 +160,7 @@ function App() {
             />
 
             <Route exact path="/searchTrainee" component={SearchTrainee} />
-            <Route exact path="/chat" component={Chat} />
+            {/* <Route exact path="/chat" component={Chat} /> */}
             <Route exact path="/searchTrainer" component={SearchTrainer} />
             <Route exact path="/online/:id" component={Online} />
             <Route exact path="/videoCategories" component={VideoCategory} />
