@@ -5,36 +5,6 @@ import Contact from "./contact";
 function Contacts(props) {
   const cons = useRef();
 
-  const [myContact, setMyContact] = useState();
-
-  // useEffect(() => {
-  //   if (input === "") cons.current.value = "";
-  // }, [input]);
-
-  // useEffect(() => {
-  //   // dispatch(clearContacts(cons.current.value));
-  //   if (myContact !== current) {
-  //     setMyContact(current);
-  //     let conversation = conversations[current];
-  //     props.currentHandler(conversation);
-  //     props.current(current);
-  //   }
-  // }, [current]);
-
-  // const clickedHandler = (id,contact) => {
-  //   // console.log("hena")
-  //   // console.log(id)
-  //   dispatch(clearContacts(id));
-  //   console.log(myContact !== id)
-  //   if (myContact !== id) {
-  //     setMyContact(id);
-  //     let conversation = conversations[id];
-  //     props.currentHandler(conversation);
-  //     props.current(id);
-  //     props.setMyContactToMessage(contact)
-  //   }
-  // };
-
   return (
     <div className={`col-md-4 ${chatCss.side_chat}`}>
       <div className={chatCss.search_box}>
@@ -49,8 +19,8 @@ function Contacts(props) {
         </div>
       </div>
       <div className={chatCss.all_friends}>
-        {props.contacts.data? props.contacts.data.docs
-          ? props.contacts.data.docs.map((c) => {
+        {props.contacts
+          ? props.contacts.map((c) => {
               return (
                 <Contact
                   key={c.id}
@@ -65,7 +35,7 @@ function Contacts(props) {
                 />
               );
             })
-          : "":""}
+          : ""}
       </div>
     </div>
   );

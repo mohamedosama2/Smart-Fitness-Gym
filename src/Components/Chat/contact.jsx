@@ -2,7 +2,6 @@ import React from "react";
 import chatCss from "../../assets/css/chat.module.css";
 import moment from "moment";
 function Contact(props) {
-  // console.log(props.id);
   return (
     <>
       <div
@@ -17,7 +16,7 @@ function Contact(props) {
       >
         <img
           src={
-            props.users[0].id === localStorage.getItem("userId")
+           parseInt( props.users[0].id) ===parseInt( localStorage.getItem("userId"))
               ? props.users[1].photo
               : props.users[0].photo
           }
@@ -26,11 +25,11 @@ function Contact(props) {
         />
         <div class={chatCss.friend__text}>
           <h6>
-            {props.users[0].id === localStorage.getItem("userId")
+            {parseInt( props.users[0].id) ===parseInt( localStorage.getItem("userId"))
               ? props.users[1].username
               : props.users[0].username}
           </h6>
-          <p>{props.lastMessage ? props.lastMessage : "no messages"}</p>
+          <p>{props.lastMessage ? props.lastMessage.content : "no messages"}</p>
         </div>
         <span class={chatCss.time}>
           {moment(props.createdAt).format("YY/MM/DD hh:mm")}
