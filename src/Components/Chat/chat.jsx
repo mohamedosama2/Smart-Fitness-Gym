@@ -7,34 +7,43 @@ import io from "socket.io-client";
 import axios from "axios";
 
 function Chat() {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState();
   const [currentConversationMessages, setCurrentConversationMessages] =
     useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const [currentContact, setCurrentContact] = useState();
   const [socket, setSocket] = useState();
-  const [conversations, setConversations] = useState([]);
+  const [conversations, setConversations] = useState({});
   const [recommendations, setRecommendations] = useState([]);
 
+  const [changed, setChanged] = useState(false);
+
   const fetchAll = useCallback(async () => {
-    const contacts = await axios.get("/conversations");
-    setContacts(contacts);
-    const fullConversations = contacts.data.docs.map((c) =>
+    const cons = await axios.get("/conversations");
+
+    const contObj = {};
+    cons.data.docs.map((c) => {
+      return (contObj[c.id] = c);
+    });
+    setContacts(contObj);
+    const fullConversations = cons.data.docs.map((c) =>
       axios.get(`/conversations/${c.id}/messages`)
     );
     const recommendedContacts = axios.get("/fetch-recommendations");
     const res = await Promise.all([...fullConversations, recommendedContacts]);
-    console.log(res)
+    let conversationsResult = res.slice(0, res.length - 1);
+    let convObj = {};
     setRecommendations(res[res.length - 1]);
-    setConversations(res.slice(0, res.length - 1));
+    conversationsResult.map(
+      (c) => (convObj[c.config.url.split("/")[2]] = c.data)
+    );
+    setConversations(convObj);
   }, []);
 
   useEffect(() => {
     fetchAll();
   }, []);
-
-  console.log(conversations);
-  console.log(recommendations);
-  console.log(contacts);
 
   useEffect(() => {
     const s = io("https://smartfitnessgym.herokuapp.com/chat");
@@ -60,7 +69,7 @@ function Chat() {
     }
     if (nextBtn) {
       nextBtn.addEventListener("click", () => {
-        if (counter == sliderImages.length - contacts.length) return;
+        if (counter == sliderImages.length -  Object.values(contacts).length) return;
         slider.style.transition = "transform 0.4s ease-in-out";
         counter++;
         slider.style.transform = "translateX(" + -size * counter + "px)";
@@ -74,20 +83,76 @@ function Chat() {
         slider.style.transform = "translateX(" + -size * counter + "px)";
       });
     }
-  }, [contacts.length]);
+  }, [contacts && Object.values(contacts).length]);
 
-  const currentHandler = (con) => {
-    console.log(con);
+  const pageHandler = async () => {};
+
+  const currentHandler = async (con) => {
+    setCurrentConversationMessages(
+      conversations[con.id]
+        ? {
+            ...conversations[con.id],
+            docs: conversations[con.id].docs,
+          }
+        : {}
+    );
+    setConversations((prev) => {
+      return {
+        ...prev,
+        [con.id]: {
+          ...conversations[con.id],
+          docs: conversations[con.id].docs,
+        },
+      };
+    });
+    setCurrentPage(1);
     setCurrentContact(con);
+    if (currentContact) {
+      const oLdConversation = await axios.get(
+        `/conversations/${currentContact.id}/messages`
+      );
+      setConversations((prev) => {
+        return {
+          ...prev,
+          [currentContact.id]: oLdConversation.data,
+        };
+      });
+    }
+  };
+  const changedHandler = () => {
+    setChanged(false);
   };
 
-  const addMessage = (content, conversation) => {
+  const addMessage = (content) => {
     socket.emit("message", {
-      to: currentContact, //id user
-      conversation, //id conversation
+      to: currentContact.users[
+        parseInt(currentContact.users[0].id) ===
+        parseInt(localStorage.getItem("userId"))
+          ? 1
+          : 0
+      ].id, //id user
+      conversation: currentContact.id, //id conversation
       content,
     });
   };
+
+  //////////contacts last message handler
+  useEffect(() => {
+    if (socket) {
+      socket.on("contact", (conversation) => {
+        setContacts((prev) => {
+          return {
+            ...prev,
+            [conversation.id]: {
+              ...prev[conversation.id],
+              lastMessage: conversation.lastMessage,
+            },
+          };
+        });
+      });
+    }
+  }, [socket]);
+
 
   return (
     <>
@@ -131,15 +196,22 @@ function Chat() {
 
       <div className={`container ${chatCss.content}`}>
         <div className="row no-gutters">
-          <Contacts socket={socket} currentHandler={currentHandler} currentContact={currentContact} contacts={contacts} />
-          {/* <Messaging
+          <Contacts
+            socket={socket}
+            currentHandler={currentHandler}
+            currentContact={currentContact}
+            contacts={contacts ? Object.values(contacts) : []}
+          />
+          <Messaging
             socket={socket}
             currentContact={currentContact}
             addMessage={addMessage}
-            currentConversation={currentConversation}
-            contactForMessage={contactForMessage}
-            currentHandler={currentHandler}
-          /> */}
+            currentConversation={currentConversationMessages}
+            changedHandler={changedHandler}
+            changed={changed}
+            currentPage={currentPage}
+            pageHandler={pageHandler}
+          />
         </div>
       </div>
     </>

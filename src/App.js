@@ -21,13 +21,11 @@ import AdminHome from "./Components/Admin/Home";
 import AddTrainer from "./Components/Admin/AddTrainer";
 import Chat from "./Components/Chat/chat";
 import { useDispatch } from "react-redux";
-import { fetchContacts } from "./store";
 import io from "socket.io-client";
-import Qr from './Components/QRCode/qrCode'
+import Qr from "./Components/QRCode/qrCode";
 // import myTrainees from "./Components/trainer/myTrainees";
 
 function App() {
-  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [u, setU] = useState(false);
   const [m, setM] = useState(false);
@@ -114,6 +112,8 @@ function App() {
           clickHandler={openHandler}
           closeHandler={closeHandler}
         />
+        <Route exact path="/AdminHome" component={AdminHome} />
+        {/* <Route exact path="/AddTrainer" component={AddTrainer} /> */}
         <PoPup
           open={open2}
           url={u}
@@ -167,8 +167,8 @@ function App() {
             <Route exact path="/Videos/:id" component={Videos} />
           </Switch>
         ) : isAuth && me.role === "gym" ? (
-            <Switch>
-              <Route exact path="/Qr" component={Qr} />
+          <Switch>
+            <Route exact path="/Qr" component={Qr} />
             <Route
               exact
               path="/"

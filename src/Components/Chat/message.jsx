@@ -6,11 +6,11 @@ function Message(props) {
     <div
       className={`
 ${chatCss.chat__bubble} ${
-        props.me != localStorage.getItem("userId")
+        props.me !== localStorage.getItem("userId")
           ? chatCss.right_chat
           : chatCss.left_chat
       } ${
-        props.me != localStorage.getItem("userId")
+        props.me !== localStorage.getItem("userId")
           ? chatCss.chat__bubble__left
           : chatCss.chat__bubble__right
       }
