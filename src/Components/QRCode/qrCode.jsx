@@ -4,6 +4,23 @@ import QRCode from 'qrcode';
 import axios from 'axios';
 import ProgressBar from "@ramonak/react-progress-bar";
 
+function dataURLtoFile(dataurl, filename) {
+ 
+  var arr = dataurl.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]), 
+      n = bstr.length, 
+      u8arr = new Uint8Array(n);
+      
+  while(n--){
+      u8arr[n] = bstr.charCodeAt(n);
+  }
+  
+  return new File([u8arr], filename, {type:mime});
+}
+
+
+
 
 const QRcode = () => {
 
@@ -67,12 +84,15 @@ const QRcode = () => {
       
       const response = await QRCode.toDataURL(QrURL);
       setImageSrc(response);
-
       console.log(imageSrc)
+
+      var file = dataURLtoFile(imageSrc,'hello.png');
+      console.log(file);
+
       const _form = new FormData()
-      _form.append('id',imageId)
-      _form.append('image',imageSrc)
-      axios.post(`/add-video-qr`, _form)
+      _form.append('image', file)
+      
+      axios.post(`/add-photo-qr?id=${imageId}`, _form)
         .then((res) => {
           console.log(res);
         }).catch((err) => {
@@ -121,7 +141,12 @@ const QRcode = () => {
             </button>
             
             <div className={style.qr__videoWrapper}>
-              <span className={style.qr__cancelBtn} onClick={() => cancelBtn()}>&times;</span>
+              <span
+                className={style.qr__cancelBtn}
+                onClick={() => cancelBtn()}
+              >
+                &times;
+              </span>
               
               <video id="video" src="" controls></video>
             </div>
@@ -133,12 +158,18 @@ const QRcode = () => {
             </button>
             
             <div className={style.progress}>
-              <ProgressBar width="50%" bgColor="#D9A404" labelColor="#000" completed={progress} />
+              <ProgressBar
+                width="50%"
+                bgColor="#D9A404"
+                labelColor="#000"
+                completed={progress}
+              />
             </div>
             
           </div>
 
           <div className={style.qr__right}>
+
             <div className={style.qr__imageWrapper}>
               {imageSrc ?
                 (<img id="img" src={imageSrc} alt="QR-img" />) :
@@ -146,14 +177,22 @@ const QRcode = () => {
               }
             </div>
 
-            <button
-              className={style.qr__print}
-              onClick={() => generateQRCode()}
-            >
-              Create
-            </button>
 
-            <button className={style.qr__print} onClick={() => window.print()}>Print</button>
+              <button
+                className={style.qr__print}
+                onClick={() => generateQRCode()}
+              >
+                Create
+              </button>
+
+              <button
+                className={style.qr__print}
+                onClick={() => window.print()}
+              >
+                Print
+              </button>
+
+
           </div>
           
 
