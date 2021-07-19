@@ -112,7 +112,7 @@ function App() {
           clickHandler={openHandler}
           closeHandler={closeHandler}
         />
-        <Route exact path="/AdminHome" component={AdminHome} />
+        {/* <Route exact path="/AdminHome" component={AdminHome} /> */}
         {/* <Route exact path="/AddTrainer" component={AddTrainer} /> */}
         <PoPup
           open={open2}
