@@ -139,11 +139,6 @@ function AllTrainees(props) {
     let leftCounter = 1;
     const leftSize = 90;
 
-    
-    mainSlider.style.transform =
-      "translateX(" + -mainSize * mainCounter + "px)";
-    leftSlider.style.transform =
-      "translatey(" + -leftSize * leftCounter + "px)";
 
     nextBtn.addEventListener("click", () => {
       if (profile) {
