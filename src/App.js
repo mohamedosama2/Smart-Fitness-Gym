@@ -161,7 +161,6 @@ function App() {
             />
 
             <Route exact path="/searchTrainee" component={SearchTrainee} />
-            {/* <Route exact path="/chat" component={Chat} /> */}
             <Route exact path="/searchTrainer" component={SearchTrainer} />
             <Route exact path="/online/:id" component={Online} />
             <Route exact path="/videoCategories" component={VideoCategory} />
