@@ -205,6 +205,8 @@ function App() {
             <Route exact path="/online/:id" component={Online} />
             <Route exact path="/videoCategories" component={VideoCategory} />
             <Route exact path="/Videos/:id" component={Videos} />
+            <Route exact path="/AddTrainer" component={AddTrainer} />
+            <Route exact path="/AdminHome" component={AdminHome} />
             <Route
               exact
               path="/addDite/:id"
