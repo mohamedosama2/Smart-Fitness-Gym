@@ -19,6 +19,10 @@ import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 
+import bgImg from "../../images/design/ground-img.png";
+import addImg from "../../images/design/add-img.png";
+import graphImg from "../../images/design/graph-img.png";
+
 // "leaflet": "^1.7.1",
 //     "leaflet-control-geocoder": "^1.13.0",
 //  "react-leaflet": "^3.0.5",
@@ -96,6 +100,8 @@ function AddMarkerToClick(props) {
   );
 }
 
+
+
 function AddTrainer(props) {
   const [startDate, setStartDate] = useState(new Date());
   const [mark, setMark] = useState("");
@@ -140,8 +146,29 @@ function AddTrainer(props) {
   };
 
   console.log(errors);
+
+ 
+  const goToHome = () => {
+    window.location.href='/AdminHome'
+  }
+  
+  const goToAddTrainer = () => {
+    window.location.href='/AddTrainer'
+  }
+  
   return (
+    <React.Fragment>
+
+     {/* start left side  */}
+      <div className={style.left_side}>
+        <img src={bgImg} alt="" className={style.ground__img}/>
+        <img src={addImg} alt="" className={style.add__img} onClick={()=>goToAddTrainer()}/>
+        <img src={graphImg} alt="" className={style.graph__img} onClick={()=>goToHome()}/>
+      </div>
+      {/* end letf side */}
+      
     <section className={style.add_trainer}>
+        
       <h1 className={style.add_title}>Add trainer</h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className={style.information}>
@@ -213,7 +240,8 @@ function AddTrainer(props) {
         </button>
       </form>
       {/* </div> */}
-    </section>
+            </section>
+    </React.Fragment>
   );
 }
 

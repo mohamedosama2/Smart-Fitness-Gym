@@ -139,11 +139,6 @@ function AllTrainees(props) {
     let leftCounter = 1;
     const leftSize = 90;
 
-    slider.style.transform = "translateX(" + -size * counter + "px)";
-    mainSlider.style.transform =
-      "translateX(" + -mainSize * mainCounter + "px)";
-    leftSlider.style.transform =
-      "translatey(" + -leftSize * leftCounter + "px)";
 
     nextBtn.addEventListener("click", () => {
       if (profile) {
@@ -190,12 +185,13 @@ function AllTrainees(props) {
       leftSlider.style.transform =
         "translateY(" + -leftSize * leftCounter + "px)";
     });
+
     upBtn.addEventListener("click", () => {
       if (leftCounter <= 0) return;
       leftSlider.style.transition = "transform 0.4s ease-in-out";
       leftCounter--;
       leftSlider.style.transform =
-        "translateY(" + -leftSize * leftCounter + "px)";
+      "translateY(" + -leftSize * leftCounter + "px)";
     });
   }, [profile]);
 
