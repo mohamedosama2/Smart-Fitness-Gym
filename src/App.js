@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useContext } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Home from "./Components/home";
 import Nav from "./Components/navbar";
 import Contact from "./Components/contactUs";
@@ -243,6 +243,7 @@ function App() {
           <Switch>
             <Route exact path="/AdminHome" component={AdminHome} />
             <Route exact path="/AddTrainer" component={AddTrainer} />
+            <Redirect to="/AdminHome" />
           </Switch>
         ) : (
           <Switch>
@@ -255,6 +256,7 @@ function App() {
             />
             <Route exact path="/contact" component={Contact} />
             <Route exact path="/about" component={About} />
+            
             {/* <Route exact path="/AddTrainer" component={AddTrainer} /> */}
           </Switch>
         )}
