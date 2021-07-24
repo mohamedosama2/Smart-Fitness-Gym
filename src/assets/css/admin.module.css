@@ -239,3 +239,7 @@ iframe {
 	width: 50%;
 	margin-top: -20px;
 }
+
+input[type= "file"]{
+	width: 20vw;
+}
