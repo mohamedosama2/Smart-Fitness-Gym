@@ -54,8 +54,6 @@ function AddMarkerToClick(props) {
 
   const map = useMapEvents({
     click(e) {
-      console.log(e);
-      console.log(L.Control.Geocoder);
       if (L.Control.Geocoder) {
         const geocoder = L.Control.Geocoder.nominatim();
 
@@ -100,8 +98,6 @@ function AddMarkerToClick(props) {
   );
 }
 
-
-
 function AddTrainer(props) {
   const [startDate, setStartDate] = useState(new Date());
   const [mark, setMark] = useState("");
@@ -113,6 +109,7 @@ function AddTrainer(props) {
   const height = { height: "30vh", width: "50vh" };
   const center = { lat: 51.5, lng: 0.12 };
   const clickHandler1 = (data, coorinates) => {
+    console.log(coorinates);
     setPlace(data);
     setCoordinates(coorinates);
   };
@@ -128,119 +125,131 @@ function AddTrainer(props) {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
   const onSubmit = async (data) => {
-
     const body = data;
-    body['photo']= data['photo'][0]
-    const location = {
-      type: "point",
-      coordinates: [coordinates.lng, coordinates.lat],
-    };
-    body["location"] = location;
+    body["photo"] = data["photo"][0];
+    // const location = {
+    //   type: "Point",
+    //   coordinates: [coordinates.lng, coordinates.lat],
+    // };
+    // console.log(location);
+    // body["location"] = location;
     body["gender"] = gender;
 
-    const form=new FormData();
-    for (const [key,value] of Object.entries(body)) {
-      form.append(`${key}`,value)
+    const form = new FormData();
+    for (const [key, value] of Object.entries(body)) {
+
+      form.append(`${key}`, value);
     }
+    form.append("location[type]", "Point");
+    form.append("location[coordinates][0]", coordinates.lng);
+    form.append("location[coordinates][1]", coordinates.lat);
     await axios.post("/add-gym", form);
+    window.location.href = "/AddTrainer";
   };
 
   console.log(errors);
 
- 
   const goToHome = () => {
-    window.location.href='/AdminHome'
-  }
-  
+    window.location.href = "/AdminHome";
+  };
+
   const goToAddTrainer = () => {
-    window.location.href='/AddTrainer'
-  }
-  
+    window.location.href = "/AddTrainer";
+  };
+
   return (
     <React.Fragment>
-
-     {/* start left side  */}
+      {/* start left side  */}
       <div className={style.left_side}>
-        <img src={bgImg} alt="" className={style.ground__img}/>
-        <img src={addImg} alt="" className={style.add__img} onClick={()=>goToAddTrainer()}/>
-        <img src={graphImg} alt="" className={style.graph__img} onClick={()=>goToHome()}/>
+        <img src={bgImg} alt="" className={style.ground__img} />
+        <img
+          src={addImg}
+          alt=""
+          className={style.add__img}
+          onClick={() => goToAddTrainer()}
+        />
+        <img
+          src={graphImg}
+          alt=""
+          className={style.graph__img}
+          onClick={() => goToHome()}
+        />
       </div>
       {/* end letf side */}
-      
-    <section className={style.add_trainer}>
-        
-      <h1 className={style.add_title}>Add trainer</h1>
 
-      <form onSubmit={handleSubmit(onSubmit)} className={style.information}>
-        {content.inputs.map((input, key) => {
-          return (
-            <React.Fragment key={key}>
+      <section className={style.add_trainer}>
+        <h1 className={style.add_title}>Add trainer</h1>
+
+        <form onSubmit={handleSubmit(onSubmit)} className={style.information}>
+          {content.inputs.map((input, key) => {
+            return (
+              <React.Fragment key={key}>
+                <input
+                  name={input.name}
+                  placeholder={input.placeholder}
+                  type={input.type}
+                  {...register(input.name)}
+                  style={{
+                    border: errors[input.name]
+                      ? "1px solid rgb(172, 50, 50)"
+                      : "",
+                  }}
+                />
+                <p className={style.message}>{errors[input.name]?.message}</p>
+              </React.Fragment>
+            );
+          })}
+          <div style={{ width: "50%", zIndex: 10000, position: "relative" }}>
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+            />
+          </div>
+
+          <div className={style.gender_info}>
+            <div> Gender </div>
+            <label className={style.contain}>
+              Male
               <input
-                name={input.name}
-                placeholder={input.placeholder}
-                type={input.type}
-                {...register(input.name)}
-                style={{
-                  border: errors[input.name]
-                    ? "1px solid rgb(172, 50, 50)"
-                    : "",
-                }}
+                type="radio"
+                defaultChecked="checked"
+                name="radio"
+                className={style.radio}
+                value="male"
+                onChange={(e) => setGender(e.target.value)}
               />
-              <p className={style.message}>{errors[input.name]?.message}</p>
-            </React.Fragment>
-          );
-        })}
-        <div style={{ width: "50%", zIndex: 10000, position: "relative" }}>
-          <DatePicker
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
-          />
-        </div>
+              <span className={style.checkmark}></span>
+            </label>
+            <label className={style.contain}>
+              Female
+              <input
+                type="radio"
+                name="radio"
+                className={style.radio}
+                value="female"
+                onChange={(e) => setGender(e.target.value)}
+              />
+              <span className={style.checkmark}></span>
+            </label>
+          </div>
 
-        <div className={style.gender_info}>
-          <div> Gender </div>
-          <label className={style.contain}>
-            Male
-            <input
-              type="radio"
-              defaultChecked="checked"
-              name="radio"
-              className={style.radio}
-              value="male"
-              onChange={(e) => setGender(e.target.value)}
+          <MapContainer style={height} center={center} zoom={8}>
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
-            <span className={style.checkmark}></span>
-          </label>
-          <label className={style.contain}>
-            Female
-            <input
-              type="radio"
-              name="radio"
-              className={style.radio}
-              value="female"
-              onChange={(e) => setGender(e.target.value)}
+            <AddMarkerToClick
+              clickHandler1={clickHandler1}
+              mark={mark}
+              clear={clear}
             />
-            <span className={style.checkmark}></span>
-          </label>
-        </div>
-
-        <MapContainer style={height} center={center} zoom={8}>
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          />
-          <AddMarkerToClick
-            clickHandler1={clickHandler1}
-            mark={mark}
-            clear={clear}
-          />
-        </MapContainer>
-        <button type="submit" className={style.addBtn}>
-          Add Trainer
-        </button>
-      </form>
-      {/* </div> */}
-            </section>
+          </MapContainer>
+          <button type="submit" className={style.addBtn}>
+            Add Trainer
+          </button>
+        </form>
+        {/* </div> */}
+      </section>
     </React.Fragment>
   );
 }
