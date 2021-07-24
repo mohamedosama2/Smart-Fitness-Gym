@@ -107,7 +107,14 @@ export class Signup extends Component {
       this.state.controls.name.valid &&
       this.state.controls.email.valid &&
       this.state.controls.password.valid &&
-      this.state.controls.phone.valid
+      this.state.controls.phone.valid &&
+      this.state.illness &&
+      this.state.dryLean &&
+      this.state.gender &&
+      this.state.loseWeight &&
+      this.state.totalBodyWater &&
+      this.state.age &&
+      this.state.weight
     ) {
       this.setState({ loading: true, error: null });
 
