@@ -147,12 +147,13 @@ function AddTrainer(props) {
 
   console.log(errors);
 
+ 
   const goToHome = () => {
-    console.log('go to Admin Home');
+    window.location.href='/AdminHome'
   }
   
   const goToAddTrainer = () => {
-    console.log('go to Add Trainer');
+    window.location.href='/AddTrainer'
   }
   
   return (

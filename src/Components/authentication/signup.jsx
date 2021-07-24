@@ -166,7 +166,7 @@ export class Signup extends Component {
           ""
         )}
         <div className={style.signup}>
-          <form onSubmit={this.submitHandler}>
+          <form onSubmit={this.submitHandler} autoComplete="off">
             <div>
               <img src={logo} className={style.logo} alt="logo" />
             </div>

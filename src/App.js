@@ -113,8 +113,8 @@ function App() {
           clickHandler={openHandler}
           closeHandler={closeHandler}
         />
-        {/* <Route exact path="/AdminHome" component={AdminHome} /> */}
-        {/* <Route exact path="/AddTrainer" component={AddTrainer} /> */}
+        {/* <Route exact path="/AdminHome" component={AdminHome} />
+        <Route exact path="/AddTrainer" component={AddTrainer} /> */}
         <PoPup
           open={open2}
           url={u}
@@ -205,8 +205,6 @@ function App() {
             <Route exact path="/online/:id" component={Online} />
             <Route exact path="/videoCategories" component={VideoCategory} />
             <Route exact path="/Videos/:id" component={Videos} />
-            <Route exact path="/AddTrainer" component={AddTrainer} />
-            <Route exact path="/AdminHome" component={AdminHome} />
             <Route
               exact
               path="/addDite/:id"
@@ -239,7 +237,7 @@ function App() {
             />
             <Route exact path="/contact" component={Contact} />
             <Route exact path="/about" component={About} />
-            <Route exact path="/AddTrainer" component={AddTrainer} />
+            {/* <Route exact path="/AddTrainer" component={AddTrainer} /> */}
           </Switch>
         )}
       </BrowserRouter>
