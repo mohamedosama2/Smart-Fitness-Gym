@@ -80,8 +80,9 @@ export class Signup extends Component {
     weight: null,
     totalBodyWater: null,
     gender: "male",
-    loseWeight:null,
+    loseWeight: null,
     dryLean: null,
+    illness: 1,
   };
   on(event, elementName) {
     const updated = updatedObject(this.state.controls, {
@@ -126,6 +127,7 @@ export class Signup extends Component {
         lostWeight: this.state.loseWeight,
         initialWeight: this.state.weight,
         totalBodyWater: this.state.totalBodyWater,
+        illness: this.state.illness,
       };
 
       axios({
@@ -326,6 +328,28 @@ export class Signup extends Component {
                   className={style.inp}
                   onChange={(e) => this.setState({ age: e.target.value })}
                 />
+              </div>
+              <div className={style.input}>
+                <select
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    this.setState({ illness: e.target.value });
+                  }}
+                  value={this.state.illness}
+                >
+                  <option value={1}>Diabetes</option>
+                  <option value={2}>Heart Disease</option>
+                  <option value={3}>Liver Disease</option>
+                  <option value={4}>Hypertension</option>
+                  <option value={5}>high Cholesterol</option>
+                  <option value={6}>None</option>
+                </select>
+                {/* <input
+                  type="number"
+                  placeholder="Your Age"
+                  className={style.inp}
+                  onChange={(e) => this.setState({ age: e.target.value })}
+                /> */}
               </div>
 
               <button className={style.okBtn}>OK</button>
